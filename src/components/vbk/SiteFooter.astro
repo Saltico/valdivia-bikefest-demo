@@ -1,0 +1,35 @@
+---
+// src/components/vbk/SiteFooter.astro
+// Footer unificado (bug fix del original): mismas 5 secciones en todas las
+// páginas — Evento, Ruta y horario, Resultados, Valdivia, Contacto.
+
+import { siteBrand } from '@/data/site';
+import { commonCopy } from '@/i18n/common';
+import { defaultLocale, localePath, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const common = commonCopy[locale];
+const links = common.nav.map((item) => ({ ...item, href: localePath(locale, item.href) }));
+---
+
+<footer class="site-footer">
+  <a class="wordmark footer-wordmark" href={localePath(locale, '/')} aria-label={common.homeLabel}>
+    <img
+      class="wordmark-logo"
+      src={siteBrand.logoUrl}
+      alt={siteBrand.name}
+      width={siteBrand.logoWidth}
+      height={siteBrand.logoHeight}
+    />
+  </a>
+  <div class="footer-links">
+    {links.map((item) => <a href={item.href}>{item.label}</a>)}
+  </div>
+  <div class="footer-meta">
+    <span>{common.footerMeta}</span>
+  </div>
+</footer>

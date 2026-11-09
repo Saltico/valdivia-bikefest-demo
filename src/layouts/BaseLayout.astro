@@ -1,0 +1,144 @@
+---
+// src/layouts/BaseLayout.astro
+// Canonical layout para VBK ("Trail Control Room").
+// Dark-only por diseño (features.dark_mode === false): sin ThemeToggle ni
+// wiring de tema. i18n ES/EN vía rutas con prefijo (features.i18n).
+// SEO.astro (inmutable) es el punto de integración de meta tags del harness.
+
+import '@/styles/vbk.css';
+import SkipLink from '@/components/layout/SkipLink.astro';
+import SEO from '@/components/seo/SEO.astro';
+import GTM from '@/components/analytics/GTM.astro';
+import GA4 from '@/components/analytics/GA4.astro';
+import ConsentBanner from '@/components/analytics/ConsentBanner.astro';
+import SiteHeader from '@/components/vbk/SiteHeader.astro';
+import SiteFooter from '@/components/vbk/SiteFooter.astro';
+import { organizationSchema, websiteSchema, getSiteUrl } from '@/lib/seo';
+import { initAnalytics } from '@/lib/analytics';
+import { commonCopy } from '@/i18n/common';
+import {
+  locales,
+  defaultLocale,
+  localePath,
+  type Locale,
+} from '@/i18n/config';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Path sin prefijo de locale (p. ej. '/evento'). Default '/'. */
+  path?: string;
+  locale?: Locale;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  path = '/',
+  locale = defaultLocale,
+  ogImage = getSiteUrl('/img/carrera.avif'),
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const canonical = getSiteUrl(localePath(locale, path));
+const common = commonCopy[locale];
+
+// hreflang alternates: misma página en cada locale soportado
+const hreflang: Record<string, string> = {};
+for (const l of locales) {
+  hreflang[l] = getSiteUrl(localePath(l, path));
+}
+
+// Analytics IDs from env vars
+const gtmId = import.meta.env.PUBLIC_GTM_ID;
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+
+// Base JSON-LD schemas injected on every page
+const baseSchemas = [organizationSchema(), websiteSchema()];
+const pageSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const allSchemas = [...baseSchemas, ...pageSchemas];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Consent Mode defaults (before analytics) -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      });
+    </script>
+
+    <!-- Google Tag Manager (conditional) -->
+    {gtmId && <GTM gtmId={gtmId} />}
+
+    <!-- Google Analytics 4 (conditional) -->
+    {ga4Id && <GA4 ga4Id={ga4Id} />}
+
+    <!-- SEO component (INMUTABLE — do not modify) -->
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      noindex={noindex}
+      jsonLd={allSchemas}
+      lang={locale}
+      hreflang={hreflang}
+    />
+
+    <!-- Tipografía de marca: Barlow Condensed (display) + DM Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <!-- Consent Banner (solo si hay analytics configurado) -->
+    {(gtmId || ga4Id) && <ConsentBanner />}
+
+    <a href="#main-content" class="skip-link">{common.skipToContent}</a>
+
+    <SiteHeader locale={locale} path={path} />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <SiteFooter locale={locale} />
+
+    <div class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script>
+      // Initialize analytics: listens to DOM events and sends to GTM dataLayer
+      initAnalytics();
+    </script>
+
+    <!-- Comportamientos globales VBK (header scroll, menú móvil, tabs,
+         countdown, crossfade, tablero de resultados, scrollspy, animaciones) -->
+    <script src="../scripts/vbk.ts"></script>
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

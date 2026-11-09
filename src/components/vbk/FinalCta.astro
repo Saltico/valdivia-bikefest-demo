@@ -1,0 +1,43 @@
+---
+// src/components/vbk/FinalCta.astro
+// CTA final compartido (home, evento, ruta): fondo brand #4C6444 (aprobado
+// en site-spec.json), <em> en ink, CTA Inscríbete externa + link Contacto.
+
+import { REGISTRATION_URL } from '@/data/site';
+import { commonCopy } from '@/i18n/common';
+import { defaultLocale, localePath, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+  /** id del section (ancla). Solo la home lo usa ('contacto'). */
+  sectionId?: string;
+}
+
+const { locale = defaultLocale, sectionId } = Astro.props;
+const common = commonCopy[locale];
+const cta = common.finalCta;
+---
+
+<section class="final-cta" id={sectionId} aria-labelledby="final-cta-title">
+  <div class="final-cta-inner">
+    <div class="cta-coordinate">{cta.coordinate}</div>
+    <div>
+      <p class="section-kicker">{cta.kicker}</p>
+      <h2 id="final-cta-title" set:html={cta.headingHtml} />
+    </div>
+    <div class="cta-actions">
+      <a
+        class="button button-lime"
+        href={REGISTRATION_URL}
+        target="_blank"
+        rel="noopener"
+        data-registration
+      >
+        {cta.primaryLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+      </a>
+      <a class="text-link text-link-light" href={localePath(locale, cta.secondaryHref)}>
+        {cta.secondaryLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+      </a>
+    </div>
+  </div>
+</section>

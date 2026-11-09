@@ -1,0 +1,123 @@
+---
+// src/components/vbk/pages/EventoPage.astro
+// /evento: hero + franja de organizadores solapada, ¿qué es?, propósito,
+// carácter internacional, comunidad y CTA final. Fuente: evento.html.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FinalCta from '@/components/vbk/FinalCta.astro';
+import { eventoCopy } from '@/i18n/evento';
+import { defaultLocale, localePath, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = eventoCopy[locale];
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/evento"
+  locale={locale}
+>
+  <div class="site-shell">
+    <div class="event-page">
+      <div class="hero-organizers-wrap">
+        <section class="event-hero">
+          <div class="event-hero-bg">
+            <img src="/img/chile.avif" alt={t.hero.bgAlt} width="3000" height="2000" loading="eager" fetchpriority="high" />
+          </div>
+          <div class="event-hero-overlay"></div>
+          <div class="inner-intro">
+            <p class="section-kicker">{t.hero.kicker}</p>
+            <h1 set:html={t.hero.headingHtml} />
+            <p>{t.hero.intro}</p>
+          </div>
+        </section>
+
+        <section class="event-organizers-section">
+          <div class="event-organizers-grid">
+            {t.organizers.map((organizer) => (
+              <div class="organizer-block">
+                <span class="organizer-role">{organizer.role}</span>
+                <strong class="organizer-name">{organizer.name}</strong>
+                <span class="organizer-detail">{organizer.detail}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section class="event-intro-section">
+        <p class="section-kicker animate-on-scroll">{t.queEs.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.queEs.headingHtml} />
+        <div class="event-intro-content animate-on-scroll" style="transition-delay:.25s">
+          <p class="event-intro-lead" set:html={t.queEs.leadHtml} />
+          <div class="event-intro-detail-list">
+            {t.queEs.items.map((item) => (
+              <div>
+                <span>{item.n}</span>
+                <div>
+                  <strong>{item.title}</strong>
+                  <p>{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="event-purpose-section">
+        <p class="section-kicker animate-on-scroll">{t.proposito.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.proposito.headingHtml} />
+        <div class="event-purpose-grid animate-on-scroll" style="transition-delay:.25s">
+          {t.proposito.items.map((item) => (
+            <div class="event-purpose-item">
+              <strong>{item.title}</strong>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="event-international-section">
+        <p class="section-kicker animate-on-scroll">{t.internacional.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.internacional.headingHtml} />
+        <div class="event-international-content animate-on-scroll" style="transition-delay:.25s">
+          <div class="event-international-text">
+            <p class="event-international-lead" set:html={t.internacional.leadHtml} />
+            <a class="arrow-link" href={localePath(locale, '/ruta')}>
+              {t.internacional.linkLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+            </a>
+          </div>
+          <div class="event-international-data">
+            {t.internacional.dataItems.map((item) => (
+              <div class="international-item">
+                <span class="international-label">{item.label}</span>
+                <strong class="international-value">{item.value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="event-community-section">
+        <p class="section-kicker animate-on-scroll">{t.comunidad.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.comunidad.headingHtml} />
+        <p class="animate-on-scroll" style="transition-delay:.25s">{t.comunidad.copy}</p>
+        <div class="event-community-features animate-on-scroll" style="transition-delay:.4s">
+          {t.comunidad.features.map((feature) => (
+            <div class="community-feature">
+              <strong>{feature.title}</strong>
+              <p>{feature.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <FinalCta locale={locale} />
+    </div>
+  </div>
+</BaseLayout>

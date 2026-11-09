@@ -1,0 +1,47 @@
+---
+// src/pages/404.astro
+// 404 — estilo VBK (dark-only, flat, hairline). Locale por defecto (ES).
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { defaultLocale } from '@/i18n/config';
+
+const title = 'Error 404 — Página no encontrada | Valdivia Bike Fest';
+const description =
+  'La página que buscas no existe o fue movida. Vuelve al inicio para conocer el evento, la ruta, los horarios y los resultados de Valdivia Bike Fest.';
+---
+
+<BaseLayout title={title} description={description} noindex locale={defaultLocale}>
+  <div class="site-shell">
+    <section class="error-section" aria-labelledby="error-title">
+      <p class="section-kicker">VBF / 404</p>
+      <h1 id="error-title">Ruta<br><em>no encontrada</em></h1>
+      <p class="error-copy">
+        La página que buscas no existe o fue movida. Vuelve a la línea de partida.
+      </p>
+      <a class="button button-lime" href="/">Volver al inicio <span aria-hidden="true">&#x2197;&#xFE0E;</span></a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-section {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 8rem var(--pad);
+    background: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .error-section h1 {
+    margin: 0;
+  }
+
+  .error-copy {
+    max-width: 32rem;
+    color: var(--paper-dim);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+// src/components/vbk/pages/ResultadosPage.astro
+// /resultados: hero full-bleed con crossfade (2 fotos), barra de aviso con
+// badge "DATOS DE PRUEBA" y tablero XCO/XCC con tabs, chips de categoría,
+// tabla con renumeración y footer de tablero. Filas renderizadas
+// server-side desde demoResultsData (porte SSG del renderResultsTable
+// original). Fuente: resultados.html + script.js.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { resultadosCopy } from '@/i18n/resultados';
+import { demoResultsData } from '@/data/results';
+import { defaultLocale, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = resultadosCopy[locale];
+
+// Slugs de categoría en el orden de los chips (mismos valores que
+// demoResultsData.cat — porte 1:1 del HTML original)
+const categorySlugs = [
+  'elite-m',
+  'elite-f',
+  'sub23-m',
+  'sub23-f',
+  'junior-m',
+  'junior-f',
+  'master-a',
+  'master-b',
+  'master-c',
+  'master-d',
+  'open',
+] as const;
+
+const chips: Array<{ slug: string; label: string }> = [
+  { slug: 'all', label: t.chipAll },
+  ...categorySlugs.map((slug, i) => ({ slug, label: t.categories[i] ?? slug })),
+];
+
+const panels: Array<{ id: 'xco' | 'xcc'; label: string; rows: typeof demoResultsData.xco }> = [
+  { id: 'xco', label: 'XCO', rows: demoResultsData.xco },
+  { id: 'xcc', label: 'XCC', rows: demoResultsData.xcc },
+];
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/resultados"
+  locale={locale}
+>
+  <div class="site-shell">
+    <div class="results-page">
+      <section class="results-hero">
+        <div class="results-hero-bg" data-crossfade data-interval="8000" aria-hidden="true">
+          <img class="carousel-img active" src="/img/resultados_mujer.avif" alt="" width="4000" height="2667" loading="eager" fetchpriority="high" />
+          <img class="carousel-img" src="/img/resultados_hombre.avif" alt="" width="4000" height="2667" loading="eager" />
+        </div>
+        <div class="results-hero-overlay"></div>
+        <div class="inner-intro">
+          <p class="section-kicker">{t.hero.kicker}</p>
+          <h1 set:html={t.hero.headingHtml} />
+          <p>{t.hero.intro}</p>
+        </div>
+      </section>
+
+      <section class="results-content">
+        <div class="results-note-bar">
+          <span class="results-demo-badge">{t.demoBadge}</span>
+          <p class="results-demo-note">{t.demoNote}</p>
+        </div>
+
+        <div class="results-board-wrap">
+          <div class="results-board-head">
+            <span>{t.boardHeadLeft}</span>
+            <span>{t.boardHeadRight}</span>
+          </div>
+
+          <div class="results-tabs" role="tablist" aria-label={t.tabsLabel}>
+            {panels.map((panel, index) => (
+              <button
+                class:list={['results-tab', index === 0 && 'is-active']}
+                type="button"
+                role="tab"
+                id={`results-tab-${panel.id}`}
+                aria-selected={index === 0 ? 'true' : 'false'}
+                aria-controls={`results-panel-${panel.id}`}
+              >
+                {panel.label}
+              </button>
+            ))}
+          </div>
+
+          <div class="results-chips" role="group" aria-label={t.chipsLabel}>
+            {chips.map((chip, index) => (
+              <button
+                class:list={['results-chip', index === 0 && 'is-active']}
+                type="button"
+                data-category={chip.slug}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+
+          <!-- DATOS DE PRUEBA: reemplazar por fuente oficial de cronometraje -->
+          <div class="results-panels is-demo">
+            {panels.map((panel, index) => (
+              <div
+                class:list={['results-panel', index === 0 && 'is-active']}
+                role="tabpanel"
+                id={`results-panel-${panel.id}`}
+                aria-labelledby={`results-tab-${panel.id}`}
+                hidden={index !== 0}
+              >
+                <div class="results-table-wrap">
+                  <table class="results-table">
+                    <thead>
+                      <tr>
+                        {t.columns.map((column) => (
+                          <th scope="col">{column}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {panel.rows.map((row) => (
+                        <tr
+                          data-category={row.cat}
+                          data-podium={row.pos === 1 ? '1' : undefined}
+                        >
+                          <td>{row.pos}</td>
+                          <td>{row.dorsal}</td>
+                          <td>{row.name}</td>
+                          <td>{row.club}</td>
+                          <td>{row.catLabel}</td>
+                          <td>{row.time}</td>
+                          <td>{row.dif}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="results-board-foot">
+            {t.boardFoot.map((item) => (
+              <span>{item}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

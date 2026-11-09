@@ -1,0 +1,222 @@
+---
+// src/components/vbk/pages/ContactoPage.astro
+// /contacto: hero con foto + overlay, formulario (nombre/email/mensaje) con
+// canales compactos al lado y mapa de Google Maps a ancho completo.
+// Formulario: el original usaba action="#" (placeholder sin backend). Aquí
+// se sigue el patrón de la plantilla: POST a PUBLIC_FORM_ACTION
+// (Formspree/Getform) cuando está configurado; fallback mailto a
+// PUBLIC_CONTACT_EMAIL con mensaje de éxito client-side + toast.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteBrand, siteContact, siteSocial } from '@/data/site';
+import { contactoCopy } from '@/i18n/contacto';
+import { defaultLocale, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = contactoCopy[locale];
+
+// Patrón de la plantilla: endpoint externo si existe, mailto como fallback
+const formAction = import.meta.env.PUBLIC_FORM_ACTION ?? '';
+const useMailto = !formAction && siteContact.email;
+const mailtoAction = useMailto ? `mailto:${siteContact.email}` : '';
+const isExternal = !!formAction;
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/contacto"
+  locale={locale}
+>
+  <div class="site-shell">
+    <div class="contact-page">
+      <section class="contact-hero">
+        <div class="contact-hero-bg">
+          <img src="/img/salto.avif" alt={t.hero.bgAlt} width="4000" height="2667" loading="eager" fetchpriority="high" />
+        </div>
+        <div class="contact-hero-overlay"></div>
+        <div class="inner-intro">
+          <p class="section-kicker">{t.hero.kicker}</p>
+          <h1 set:html={t.hero.headingHtml} />
+          <p>{t.hero.intro}</p>
+        </div>
+      </section>
+
+      <section class="contact-form-section">
+        <div class="contact-form-container">
+          <form
+            class="contact-form"
+            data-contact-form
+            data-toast={t.form.toast}
+            method={isExternal ? 'POST' : undefined}
+            action={isExternal ? formAction : mailtoAction || undefined}
+          >
+            <h2 class="contact-form-title" set:html={t.form.titleHtml} />
+            <div class="contact-form-row">
+              <div class="contact-form-field">
+                <label for="contact-name">{t.form.nameLabel}</label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+              <div class="contact-form-field">
+                <label for="contact-email">{t.form.emailLabel}</label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+            </div>
+            <div class="contact-form-field">
+              <label for="contact-message">{t.form.messageLabel}</label>
+              <textarea id="contact-message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="button button-lime">
+              {t.form.submitLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+            </button>
+
+            <!-- Mensaje de éxito (oculto por defecto; fallback mailto) -->
+            <div class="contact-form-success" data-contact-success hidden>
+              <strong>{t.form.successTitle}</strong>
+              <p>{t.form.successText}</p>
+            </div>
+          </form>
+
+          <div class="contact-channels-compact">
+            {siteContact.email && (
+              <a href={`mailto:${siteContact.email}`} class="contact-channel-icon">
+                <svg
+                  class="contact-channel-svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="0"></rect>
+                  <polyline points="22,4 12,13 2,4"></polyline>
+                </svg>
+                <strong>{siteContact.email}</strong>
+              </a>
+            )}
+            <a
+              href={siteSocial.instagram}
+              target="_blank"
+              rel="noreferrer"
+              class="contact-channel-icon"
+            >
+              <svg
+                class="contact-channel-svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <strong>{siteSocial.instagramHandle}</strong>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {siteContact.mapsEmbedUrl && (
+        <section class="contact-map">
+          <iframe
+            class="contact-map-iframe"
+            src={siteContact.mapsEmbedUrl}
+            width="100%"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title={t.mapTitle}
+          ></iframe>
+        </section>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Mensaje de éxito del formulario (nuevo en la migración; el original no
+     tenía backend). Sigue el sistema plano: hairline, sin radius. */
+  .contact-form-success {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--turquoise);
+    background: rgba(82, 199, 180, 0.04);
+  }
+
+  .contact-form-success[hidden] {
+    display: none;
+  }
+
+  .contact-form-success strong {
+    display: block;
+    font: 700 1.4rem/1 var(--display);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-form-success p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--paper-dim);
+  }
+</style>
+
+<script>
+  // Fallback mailto: arma el correo con los campos del formulario, abre la
+  // aplicación de correo y muestra el mensaje de éxito + toast. Con
+  // PUBLIC_FORM_ACTION configurado (POST externo) no se intercepta el envío.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const success = document.querySelector<HTMLElement>('[data-contact-success]');
+  if (form && success) {
+    const hasExternalAction =
+      form.hasAttribute('action') && form.getAttribute('method') === 'POST';
+
+    if (!hasExternalAction) {
+      form.addEventListener('submit', (e: SubmitEvent) => {
+        e.preventDefault();
+        const mailto = form.getAttribute('action') ?? '';
+        if (!mailto) return;
+        const data = new FormData(form);
+        const name = String(data.get('name') ?? '');
+        const email = String(data.get('email') ?? '');
+        const message = String(data.get('message') ?? '');
+        const subject = encodeURIComponent(`Contacto web — ${name}`);
+        const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+        window.location.href = `${mailto}?subject=${subject}&body=${body}`;
+        form.style.display = 'none';
+        success.hidden = false;
+        success.scrollIntoView({ block: 'center' });
+        const toast = (window as { vbkToast?: (message: string) => void }).vbkToast;
+        toast?.(form.dataset.toast ?? '');
+      });
+    }
+  }
+</script>

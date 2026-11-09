@@ -1,0 +1,209 @@
+---
+// src/components/vbk/pages/RutaPage.astro
+// /ruta: hero edición 2027, datos clave (5 íconos), formatos XCO/XCC,
+// programa por día, categorías, galería y CTA final. Fuente: ruta.html.
+// La sección "Congreso técnico" del original está comentada hasta
+// confirmación oficial (warning del spec) — se conserva abajo como
+// comentario listo para activar.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FinalCta from '@/components/vbk/FinalCta.astro';
+import { rutaCopy, type CircuitCard } from '@/i18n/ruta';
+import { defaultLocale, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = rutaCopy[locale];
+
+// Íconos SVG lineales del original (stroke currentColor 1.5)
+const icons: Record<string, string> = {
+  calendar:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="12" y1="11" x2="12" y2="15"/></svg>',
+  people:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+  clock:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  flag: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/></svg>',
+  uci: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+};
+
+// Dimensiones intrínsecas (evita CLS; ver public/img): checklist SEO "width/height".
+const imageDims: Record<string, { width: number; height: number }> = {
+  '/img/ruta.avif': { width: 4000, height: 2665 },
+  '/img/carrera.avif': { width: 4000, height: 2667 },
+  '/img/salto.avif': { width: 4000, height: 2667 },
+  '/img/terreno.avif': { width: 4000, height: 2667 },
+  '/img/bajada.avif': { width: 3000, height: 2000 },
+  '/img/pista.avif': { width: 4000, height: 2667 },
+  '/img/resultados_hombre.avif': { width: 4000, height: 2667 },
+  '/img/resultados_mujer.avif': { width: 4000, height: 2667 },
+  '/img/valdivia_1.avif': { width: 5272, height: 2966 },
+  '/img/valdivia_2.avif': { width: 5225, height: 3483 },
+  '/img/valdivia_3.avif': { width: 7354, height: 4910 },
+  '/img/valdivia_4.avif': { width: 5266, height: 2962 },
+};
+
+// duplicado para el loop infinito del track; la 2ª mitad queda oculta al
+// árbol de accesibilidad y fuera del tab-order (elementos repetidos).
+const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
+  ...image,
+  ...imageDims[image.src],
+  duplicate: index >= t.galeria.length,
+}));
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/ruta"
+  locale={locale}
+>
+  <div class="site-shell">
+    <div class="event-page">
+      <section class="event-hero">
+        <div class="event-hero-bg">
+          <img src="/img/ruta.avif" alt="" width="4000" height="2665" loading="eager" fetchpriority="high" />
+        </div>
+        <div class="event-hero-overlay"></div>
+        <div class="inner-intro">
+          <p class="section-kicker">{t.hero.kicker}</p>
+          <h1 set:html={t.hero.headingHtml} />
+          <p>{t.hero.intro}</p>
+        </div>
+      </section>
+
+      <section class="contact-race-section">
+        <div class="contact-race-grid">
+          {t.keyData.map((item) => (
+            <div class="contact-race-item">
+              <span class="contact-race-icon" set:html={icons[item.icon]} />
+              <span class="contact-race-label">{item.label}</span>
+              <strong class="contact-race-value">{item.value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="event-formats-section animate-on-scroll">
+        <p class="section-kicker animate-on-scroll">{t.formatos.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.formatos.headingHtml} />
+        <div class="event-formats-grid">
+          {t.formatos.cards.map((card: CircuitCard, index: Number) => (
+            <div class="circuit-card animate-on-scroll" style={`transition-delay:${0.15 + Number(index) * 0.05}s`}>
+              <div class="circuit-header">
+                <span class="circuit-label">{card.label}</span>
+                <h3 class="circuit-name">{card.name}</h3>
+                <p class="circuit-full-name">{card.fullName}</p>
+              </div>
+              <div class="circuit-metrics">
+                {card.metrics.map((metric) => (
+                  <div class="metric">
+                    <span class="metric-value">{metric.value}</span>
+                    <span class="metric-unit">{metric.unit}</span>
+                    <span class="metric-label">{metric.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div class="circuit-details">
+                <p>{card.details}</p>
+              </div>
+              <div class="circuit-status">
+                <span class="status-label">{card.statusLabel}</span>
+                <span class="status-value">{card.statusValue}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="event-formats-note">{t.formatos.note}</p>
+      </section>
+
+      <section class="event-schedule-section">
+        <p class="section-kicker animate-on-scroll">{t.programa.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.programa.headingHtml} />
+        <div class="event-schedule-list">
+          {t.programa.rows.map((row, index) => (
+            <div
+              class:list={['event-schedule-row', 'animate-on-scroll']}
+              style={`transition-delay:${0.15 + index * 0.05}s`}
+            >
+              <time>{row.n}</time>
+              <div>
+                <strong>{row.day}</strong>
+                <span>{row.activity}</span>
+              </div>
+              <em class:list={['schedule-status', row.status]}>{row.statusLabel}</em>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!--
+        CONGRESO TÉCNICO — omitido hasta confirmación oficial (warning del
+        site-spec). Activar este bloque cuando se confirme la fecha:
+
+        <section class="event-congress-section">
+          <div class="event-congress-panel">
+            <div class="congress-header">
+              <span class="congress-status">POR CONFIRMAR</span>
+              <h2>Congreso técnico</h2>
+            </div>
+            <p class="congress-description">El congreso técnico es la reunión obligatoria donde se definen los horarios de largada, el número de vueltas por categoría, y la reglamentación específica de la competencia. Se realiza antes del inicio de las competencias.</p>
+            <p class="congress-note">La fecha y hora exactas se comunican oportunamente a todos los inscritos.</p>
+            <div class="congress-footer">
+              <span class="congress-icon">⚑</span>
+              <span>Asistencia obligatoria para todos los corredores</span>
+            </div>
+          </div>
+        </section>
+      -->
+
+      <section class="event-categories-section">
+        <p class="section-kicker animate-on-scroll">{t.categorias.kicker}</p>
+        <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.categorias.headingHtml} />
+        <div class="event-categories-grid">
+          {t.categorias.groups.map((group, index: number) => (
+            <div class="category-group animate-on-scroll" style={`transition-delay:${0.15 + index * 0.05}s`}>
+              <h3>{group.title}</h3>
+              <ul>
+                {group.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p class="event-categories-note animate-on-scroll" style="transition-delay:.35s">{t.categorias.note}</p>
+      </section>
+
+      <section
+        class="contact-gallery route-gallery"
+        aria-label={t.galeriaLabel}
+        data-l10n-lightbox-label={t.lightboxLabel}
+        data-l10n-lightbox-close={t.lightboxClose}
+      >
+        <div class="contact-gallery-track">
+          {gallery.map((image) => (
+            <button
+              type="button"
+              class="contact-gallery-item"
+              data-gallery-trigger
+              aria-hidden={image.duplicate ? 'true' : undefined}
+              tabindex={image.duplicate ? -1 : undefined}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                loading="lazy"
+              />
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <FinalCta locale={locale} />
+    </div>
+  </div>
+</BaseLayout>

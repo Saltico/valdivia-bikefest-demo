@@ -1,0 +1,255 @@
+---
+// src/components/vbk/pages/HomePage.astro
+// Home: hero full-viewport con señal + cuenta regresiva al 14-mar-2027
+// 14:10 America/Santiago, secciones evento/ruta/schedule/resultados/valdivia
+// y CTA final. Fuente: index.html original + site-spec.json.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FinalCta from '@/components/vbk/FinalCta.astro';
+import { REGISTRATION_URL, EVENT_TARGET_DATE, sportsEventSchema } from '@/data/site';
+import { commonCopy } from '@/i18n/common';
+import { homeCopy } from '@/i18n/home';
+import { defaultLocale, localePath, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = homeCopy[locale];
+const common = commonCopy[locale];
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/"
+  locale={locale}
+  jsonLd={sportsEventSchema}
+>
+  <div class="site-shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <img
+        class="hero-bg"
+        src="/img/carrera.avif"
+        alt=""
+        width="4000"
+        height="2667"
+        loading="eager"
+        fetchpriority="high"
+        aria-hidden="true"
+      />
+      <div class="hero-content">
+        <div class="hero-copy">
+          <p class="signal-line">
+            <span class="signal-pulse"></span>
+            {t.signal}
+            <span class="signal-rule"></span>
+            {t.signalBrand}
+          </p>
+          <h1 id="hero-title" set:html={t.headingHtml} />
+          <p class="hero-intro">{t.intro}</p>
+          <div class="hero-actions">
+            <a
+              class="button button-lime"
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener"
+              data-registration
+            >
+              {common.register} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+            </a>
+            <a class="text-link" href="#ruta">
+              {t.exploreRoute} <span aria-hidden="true">&#x2193;&#xFE0E;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="status-strip" aria-label={t.statusAriaLabel}>
+        <div class="status-label">
+          <span class="status-dot"></span>
+          <span>{t.status}</span>
+        </div>
+        <div
+          class="countdown"
+          data-countdown
+          data-date={EVENT_TARGET_DATE}
+          data-end-message={t.endMessage}
+        >
+          <div>
+            <strong data-days>--</strong>
+            <span>{t.countdown.days}</span>
+          </div>
+          <b>:</b>
+          <div>
+            <strong data-hours>--</strong>
+            <span>{t.countdown.hours}</span>
+          </div>
+          <b>:</b>
+          <div>
+            <strong data-minutes>--</strong>
+            <span>{t.countdown.minutes}</span>
+          </div>
+          <b>:</b>
+          <div>
+            <strong data-seconds>--</strong>
+            <span>{t.countdown.seconds}</span>
+          </div>
+        </div>
+        <div class="status-message" data-countdown-message>
+          {t.statusMessage} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section event-section" id="evento" aria-labelledby="event-title">
+      <div class="section-heading animate-on-scroll">
+        <p class="section-kicker">{t.evento.kicker}</p>
+        <h2 id="event-title" set:html={t.evento.headingHtml} />
+      </div>
+      <div class="event-intro animate-on-scroll">
+        <p class="lead-copy">{t.evento.lead}</p>
+        <a class="arrow-link" href={localePath(locale, '/evento')}>
+          {t.evento.linkLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+        </a>
+      </div>
+      <div class="event-grid animate-on-scroll">
+        <div class="event-grid-label">{t.evento.gridLabel}</div>
+        <ul class="info-list">
+          {t.evento.items.map((item) => (
+            <li>
+              <span>{item.n}</span>
+              <strong set:html={item.titleHtml} />
+              <em>{item.text}</em>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section route-section" id="ruta" aria-labelledby="route-title">
+      <div class="route-header animate-on-scroll">
+        <div class="section-heading">
+          <p class="section-kicker">{t.ruta.kicker}</p>
+          <h2 id="route-title" set:html={t.ruta.headingHtml} />
+        </div>
+      </div>
+      <div class="interactive-route animate-on-scroll">
+        <div class="route-controls" role="tablist" aria-label={t.ruta.kicker}>
+          {t.ruta.tabs.map((tab, index) => (
+            <button
+              class:list={['route-tab', index === 0 && 'is-active']}
+              id={`route-tab-${tab.id}`}
+              type="button"
+              role="tab"
+              aria-selected={index === 0 ? 'true' : 'false'}
+              aria-controls={`route-panel-${tab.id}`}
+              data-route-tab={tab.id}
+            >
+              <span>{tab.index}</span>
+              <strong>{tab.label}</strong>
+              <small>{tab.sublabel}</small>
+            </button>
+          ))}
+        </div>
+        {t.ruta.tabs.map((tab, index) => (
+          <div
+            class="route-detail"
+            id={`route-panel-${tab.id}`}
+            role="tabpanel"
+            aria-labelledby={`route-tab-${tab.id}`}
+            tabindex="0"
+            data-route-detail
+            hidden={index !== 0}
+          >
+            <div class="route-detail-header">
+              <div class="route-detail-top">
+                <span>{`${tab.index} / 0${t.ruta.tabs.length}`}</span>
+                <span>{tab.state}</span>
+              </div>
+              <div class="route-detail-copy">
+                <h3>{tab.title}</h3>
+                <p>{tab.description}</p>
+              </div>
+            </div>
+            <div class="route-detail-footer">
+              <div class="route-data">
+                <div>
+                  <span>{t.ruta.dataLabels.distance}</span>
+                  <strong>{tab.distance}</strong>
+                </div>
+                <div>
+                  <span>{t.ruta.dataLabels.elevation}</span>
+                  <strong>{tab.elevation}</strong>
+                </div>
+                <div>
+                  <span>{t.ruta.dataLabels.time}</span>
+                  <strong>{tab.time}</strong>
+                </div>
+              </div>
+              <div class="detail-footer">
+                <span>{t.ruta.footerNote}</span>
+                <a href={localePath(locale, '/ruta')}>
+                  {t.ruta.linkLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section schedule-section" aria-labelledby="schedule-title">
+      <div class="schedule-title animate-on-scroll">
+        <p class="section-kicker">{t.schedule.kicker}</p>
+        <h2 id="schedule-title" set:html={t.schedule.headingHtml} />
+      </div>
+      <div class="schedule-list animate-on-scroll">
+        {t.schedule.rows.map((row) => (
+          <div class="schedule-row">
+            <time>{row.n}</time>
+            <div>
+              <strong>{row.title}</strong>
+              <span>{row.when}</span>
+            </div>
+            <em>{row.note}</em>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="results-section" id="resultados" aria-labelledby="results-title">
+      <div class="results-copy animate-on-scroll">
+        <p class="section-kicker">{t.resultados.kicker}</p>
+        <h2 id="results-title" set:html={t.resultados.headingHtml} />
+        <p>{t.resultados.copy}</p>
+        <a class="button button-dark" href={localePath(locale, '/resultados')}>
+          {t.resultados.ctaLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+        </a>
+      </div>
+      <div class="results-images animate-on-scroll">
+          <img src="/img/meta.avif" alt={t.resultados.imageAlt} width="4000" height="2667" loading="lazy" />
+        </div>
+    </section>
+
+    <section class="valdivia-section" id="valdivia" aria-labelledby="valdivia-title">
+      <div class="valdivia-carousel" aria-hidden="true" data-crossfade data-interval="5000">
+          <img src="/img/valdivia_1.avif" alt="" width="5272" height="2966" loading="lazy" class="carousel-img active" />
+          <img src="/img/valdivia_2.avif" alt="" width="5225" height="3483" loading="lazy" class="carousel-img" />
+          <img src="/img/valdivia_3.avif" alt="" width="7354" height="4910" loading="lazy" class="carousel-img" />
+          <img src="/img/valdivia_4.avif" alt="" width="5266" height="2962" loading="lazy" class="carousel-img" />
+        <span class="map-phrase" set:html={t.valdivia.overlayPhraseHtml} />
+      </div>
+      <div class="valdivia-copy">
+        <p class="section-kicker">{t.valdivia.kicker}</p>
+        <h2 id="valdivia-title" set:html={t.valdivia.headingHtml} />
+        <p>{t.valdivia.copy}</p>
+        <a class="arrow-link" href={localePath(locale, '/valdivia')}>
+          {t.valdivia.linkLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+        </a>
+      </div>
+    </section>
+
+    <FinalCta locale={locale} sectionId="contacto" />
+  </div>
+</BaseLayout>

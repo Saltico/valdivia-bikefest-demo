@@ -1,0 +1,131 @@
+---
+// src/components/vbk/pages/ValdiviaPage.astro
+// /valdivia: hero full-bleed, nav lateral fija de destinos con tooltips y
+// scrollspy (IntersectionObserver en vbk.ts) y 5 secciones de destino con
+// foto de fondo, overlay y acciones externas.
+// Bug fix del original: los atributos malformados rel="noopener"" (comilla
+// duplicada) de los botones de destinos se emiten aquí correctamente.
+// Fuente: valdivia.html.
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { valdiviaCopy } from '@/i18n/valdivia';
+import { defaultLocale, type Locale } from '@/i18n/config';
+
+export interface Props {
+  locale?: Locale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const t = valdiviaCopy[locale];
+
+// Dimensiones intrínsecas de las fotos de destino (evita CLS; checklist SEO).
+const destinationDims: Record<string, { width: number; height: number }> = {
+  '/img/valdivia_parque_nacional_alerce_costero.avif': { width: 7360, height: 4912 },
+  '/img/valdivia_volcan_mocho_choshuenco.avif': { width: 3648, height: 5472 },
+  '/img/valdivia_humedal_punucapa.avif': { width: 8256, height: 5504 },
+  '/img/valdivia_vida_nocturna.avif': { width: 8256, height: 5504 },
+  '/img/valdivia_fuerte_niebla.avif': { width: 4938, height: 3292 },
+};
+
+// Íconos SVG lineales del original (stroke currentColor 2)
+const navIcons: Record<string, string> = {
+  forest:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L7 9h3L6 16h4l-3 6h10l-3-6h4l-4-7h3z"/></svg>',
+  volcano:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20L9 8l3 4 3-4 5 12z"/><path d="M9 8c0-2 1-4 3-4s3 2 3 4"/><path d="M10 4c0-1 1-2 2-2s2 1 2 2"/></svg>',
+  waves:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><circle cx="12" cy="7" r="3"/></svg>',
+  beer:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 21h8M12 17v4"/><path d="M7 4h10v9a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4V4z"/><path d="M17 6h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2"/><path d="M9 8h.01M12 8h.01M15 8h.01"/></svg>',
+  fortress:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="10"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M3 11h18"/><path d="M7 15v2M12 15v2M17 15v2"/><path d="M7 7V5M12 7V5M17 7V5"/></svg>',
+};
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  path="/valdivia"
+  locale={locale}
+>
+  <div class="site-shell">
+    <div class="valdivia-presentation">
+      <section class="valdivia-hero">
+        <img
+          src="/img/valdivia_hero.avif"
+          alt=""
+          width="4654"
+          height="2618"
+          class="valdivia-hero-bg"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="valdivia-hero-content">
+          <p class="section-kicker">{t.hero.kicker}</p>
+          <h1 set:html={t.hero.headingHtml} />
+        </div>
+      </section>
+
+      <p class="visually-hidden">{t.hero.hiddenH1}</p>
+
+      <nav class="destinations-nav" aria-label={t.navLabel}>
+        {t.destinations.map((destination) => (
+          <a
+            href={`#${destination.id}`}
+            class="destinations-nav-item"
+            aria-label={destination.navLabel}
+          >
+            <Fragment set:html={navIcons[destination.navIcon]} />
+            <span class="destinations-nav-tooltip">{destination.navLabel}</span>
+          </a>
+        ))}
+      </nav>
+
+      {t.destinations.map((destination, index) => (
+        <section
+          id={destination.id}
+          class="destination-section"
+          aria-labelledby={`${destination.id}-title`}
+        >
+          <img
+            src={destination.image}
+            alt={destination.bgAlt}
+            width={destinationDims[destination.image]?.width}
+            height={destinationDims[destination.image]?.height}
+            class="destination-bg"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : undefined}
+          />
+          <div class="destination-overlay"></div>
+          <div class="destination-content">
+            <p class="destination-kicker animate-on-scroll">{destination.kicker}</p>
+            <h2
+              id={`${destination.id}-title`}
+              class="destination-title animate-on-scroll"
+              set:html={destination.titleHtml}
+            />
+            <p class="destination-description animate-on-scroll">{destination.description}</p>
+            <div class="destination-actions animate-on-scroll">
+              <a
+                class="button button-lime"
+                href={destination.infoHref}
+                target="_blank"
+                rel="noopener"
+              >
+                {destination.infoLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+              </a>
+              <a
+                class="button button-ghost"
+                href={destination.mapHref}
+                target="_blank"
+                rel="noopener"
+              >
+                {destination.mapLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
