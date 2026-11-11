@@ -62,6 +62,9 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
+      // trailingSlash 'never': la raíz sale como '<base>/' y no coincide con el
+      // canonical ('<base>'). Se normaliza para que sitemap y canonicals coincidan.
+      serialize: (item) => ({ ...item, url: item.url.replace(/\/$/, '') }),
       filter: (page) =>
         !['/thank-you', '/404', '/500', '/legal', '/privacy', '/cookies', '/keystatic']
           .some((p) => page.includes(p)),
