@@ -10,6 +10,11 @@ import { localeField } from './utils/localeField';
 
 export const basePath = 'src/content/pages/ruta';
 
+/** Imágenes subidas desde el panel: viven en src/assets/img (Astro las optimiza). */
+export const imageDirectory = 'src/assets/img';
+/** Ruta relativa desde src/content/pages/ruta/*.json hasta src/assets/img. */
+export const imagePublicPath = '../../../assets/img/';
+
 /** Íconos disponibles para los datos clave (los SVG viven en RutaPage.astro). */
 export const keyDataIcons = ['calendar', 'people', 'clock', 'flag', 'uci'] as const;
 
@@ -164,9 +169,11 @@ export const keystaticPagesRutaConfig = {
     galeria: fields.array(
       fields.object(
         {
-          src: fields.text({
-            label: 'Ruta de imagen',
-            description: 'Ruta de imagen, p. ej. /img/carrera.avif (el archivo vive en src/assets/img y se optimiza en build: avif/webp responsive).',
+          src: fields.image({
+            label: 'Imagen',
+            description: 'JPG, PNG, WebP o AVIF; máx. 2560 px de ancho y ~5 MB. Se optimiza en build (avif/webp responsive).',
+            directory: imageDirectory,
+            publicPath: imagePublicPath,
             validation: { isRequired: true },
           }),
           alt: fields.text({ label: 'Alt', validation: { isRequired: true } }),

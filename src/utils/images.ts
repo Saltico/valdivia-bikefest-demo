@@ -1,6 +1,6 @@
 // src/utils/images.ts
-// Resuelve rutas de imagen guardadas como texto (p. ej. '/img/ruta.avif' en el
-// contenido Keystatic) al ImageMetadata de src/assets/img, para que astro:assets
+// Resuelve rutas de imagen de DISEÑO (plantillas, no editables en el CMS) como
+// '/img/x.avif' al ImageMetadata de src/assets/img, para que astro:assets
 // genere variantes responsive (avif/webp + srcset). Si la ruta no existe en
 // el mapa (https externa, archivo en public/), el llamador cae a <img> plano.
 

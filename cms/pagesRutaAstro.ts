@@ -2,13 +2,15 @@
 // Definición Astro de la colección `pagesRuta` — patrón dual-file.
 // Referenciado por src/content.config.ts.
 
-import { defineCollection } from 'astro:content';
+import { defineCollection, type ImageFunction } from 'astro:content';
 import { z } from 'astro/zod';
 import { basePath, keyDataIcons, programStatuses } from './pagesRutaKeystatic';
 import { LOCALES } from './utils/locales';
 import { loader } from './utils/loader';
 
-export const rutaSchema = z.object({
+/** `image()` resuelve las rutas relativas de Keystatic a ImageMetadata. */
+export const rutaSchema = (image: ImageFunction) =>
+  z.object({
   locale: z.enum(LOCALES),
   metaTitle: z.string().min(1),
   metaDescription: z.string().min(1),
@@ -75,7 +77,7 @@ export const rutaSchema = z.object({
   lightboxClose: z.string().min(1),
   galeria: z.array(
     z.object({
-      src: z.string().min(1),
+      src: image(),
       alt: z.string().min(1),
     }),
   ),
@@ -83,8 +85,8 @@ export const rutaSchema = z.object({
 
 export const astroPagesRutaDefinition = defineCollection({
   loader: loader(basePath, 'json'),
-  schema: rutaSchema,
+  schema: ({ image }) => rutaSchema(image),
 });
 
-export type RutaData = z.infer<typeof rutaSchema>;
+export type RutaData = z.infer<ReturnType<typeof rutaSchema>>;
 export type RutaCircuitCard = RutaData['formatos']['cards'][number];

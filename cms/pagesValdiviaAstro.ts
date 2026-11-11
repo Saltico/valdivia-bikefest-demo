@@ -2,13 +2,15 @@
 // Definición Astro de la colección `pagesValdivia` — patrón dual-file.
 // Referenciado por src/content.config.ts.
 
-import { defineCollection } from 'astro:content';
+import { defineCollection, type ImageFunction } from 'astro:content';
 import { z } from 'astro/zod';
 import { basePath, destinationNavIcons } from './pagesValdiviaKeystatic';
 import { LOCALES } from './utils/locales';
 import { loader } from './utils/loader';
 
-export const valdiviaSchema = z.object({
+/** `image()` resuelve las rutas relativas de Keystatic a ImageMetadata. */
+export const valdiviaSchema = (image: ImageFunction) =>
+  z.object({
   locale: z.enum(LOCALES),
   metaTitle: z.string().min(1),
   metaDescription: z.string().min(1),
@@ -27,7 +29,7 @@ export const valdiviaSchema = z.object({
       titleHtml: z.string().min(1),
       description: z.string().min(1),
       bgAlt: z.string().min(1),
-      image: z.string().min(1),
+      image: image(),
       infoLabel: z.string().min(1),
       infoHref: z.string().url(),
       mapLabel: z.string().min(1),
@@ -38,8 +40,8 @@ export const valdiviaSchema = z.object({
 
 export const astroPagesValdiviaDefinition = defineCollection({
   loader: loader(basePath, 'json'),
-  schema: valdiviaSchema,
+  schema: ({ image }) => valdiviaSchema(image),
 });
 
-export type ValdiviaData = z.infer<typeof valdiviaSchema>;
+export type ValdiviaData = z.infer<ReturnType<typeof valdiviaSchema>>;
 export type ValdiviaDestination = ValdiviaData['destinations'][number];

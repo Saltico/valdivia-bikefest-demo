@@ -40,6 +40,19 @@ En local, Keystatic usa storage `local`: edita directamente `src/content/**` y l
 3. Invitar al cliente por email desde el team.
 4. El identificador del proyecto es `valdivia-bike-fest/valdivia-bikefest` (default en `keystatic.config.ts`; se puede sobreescribir con `PUBLIC_KEYSTATIC_CLOUD_PROJECT` en Hostinger, antes de construir).
 
+## Imágenes editables desde el panel
+
+- Imágenes editables: galería de **Ruta** (Galería → Imagen) y foto de fondo de cada destino en **Valdivia**. El resto de fondos/héroes (Inicio, Evento, Resultados, Contacto) son imágenes de diseño fijas en las plantillas.
+- En el panel, el campo de imagen sube el archivo a `src/assets/img/` (un commit al repo con storage cloud) y guarda una ruta relativa en el JSON de la entrada. Astro lo optimiza en build (AVIF + WebP responsive con `srcset`); no hace falta optimizarlo a mano.
+- Formatos aceptados: JPG, PNG, WebP o AVIF (se recomienda AVIF/WebP/JPG). **Ancho máximo recomendado 2560 px, peso ~5 MB** (fotos más grandes funcionan, pero ralentizan el build y pesan en el repo). Proporción recomendada 3:2 / 16:9 horizontal para fondos.
+- Mantén siempre el campo **Alt** de cada imagen no decorativa.
+- Con storage cloud, subir/cambiar una imagen es un commit: **el sitio público no cambia hasta reconstruir/redesplegar**. En GitHub Pages el push a `main` ya dispara el workflow (con caché de `node_modules/.astro`, solo se re-optimizan imágenes nuevas).
+- Subir un archivo con el mismo nombre que otro existente en `src/assets/img/` lo reemplazaría: usa nombres únicos y descriptivos.
+
+## Límite conocido (target Node)
+
+`/404` pedido directamente al servidor Node devuelve 500 (`FailedToFindPageMapSSR` del handler estático de `@astrojs/node`); las rutas inexistentes sí devuelven 404 correctamente. En GitHub Pages `404.html` funciona con normalidad.
+
 ## Variables de entorno
 
 Ver `.env.example` (comentado). Resumen:

@@ -8,8 +8,7 @@
 
 import Img from '@/components/vbk/Img.astro';
 import { getImage } from 'astro:assets';
-import { resolveImage } from '@/utils/images';
-import { withBase } from '@/utils/url';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
 import { getEntry } from 'astro:content';
@@ -43,23 +42,26 @@ const icons: Record<string, string> = {
 };
 
 // Versión grande (webp 1600 px) para el lightbox; la miniatura del carrusel
-// solo carga ~456 px. Si la ruta no está en src/assets/img, cae a la URL original.
-const fullByPath = new Map<string, string>();
-for (const image of t.galeria) {
-  const meta = resolveImage(image.src);
-  fullByPath.set(
-    image.src,
-    meta
-      ? (await getImage({ src: meta, width: Math.min(1600, meta.width), format: 'webp', quality: 70 })).src
-      : withBase(image.src),
-  );
-}
+// solo carga ~456 px.
+// (No se lee `image.src.src`: referenciar la URL original haría que Astro
+// conserve en dist la imagen sin optimizar.)
+const fulls = await Promise.all(
+  t.galeria.map(async (image) => {
+    const { src } = await getImage({
+      src: image.src,
+      width: Math.min(1600, (image.src as ImageMetadata & { clone?: ImageMetadata }).clone?.width ?? image.src.width),
+      format: 'webp',
+      quality: 70,
+    });
+    return src;
+  }),
+);
 
 // duplicado para el loop infinito del track; la 2ª mitad queda oculta al
 // árbol de accesibilidad y fuera del tab-order (elementos repetidos).
 const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
-  ...image,
-  full: fullByPath.get(image.src),
+  image,
+  full: fulls[index % t.galeria.length],
   duplicate: index >= t.galeria.length,
 }));
 ---
@@ -203,8 +205,8 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
               tabindex={image.duplicate ? -1 : undefined}
             >
               <Img
-                src={image.src}
-                alt={image.alt}
+                src={image.image.src}
+                alt={image.image.alt}
                 widths={[336, 456, 672, 912]}
                 sizes="max(336px, min(32.5vw, 456px))"
                 quality={65}

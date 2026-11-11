@@ -76,6 +76,35 @@ export default defineConfig({
     // format 'file' + carpeta en/: genera en.html y en/ruta.html, pero GitHub
     // Pages podría resolver /en como directorio (301 → /en/ → 404). Se copia
     // en.html → en/index.html para que /en y /en/ sirvan siempre contenido.
+    // Astro conserva en dist/_astro el ORIGINAL de cada imagen importada (aunque
+    // solo se sirvan las variantes optimizadas de getImage). Se borran los
+    // originales que ningún HTML/CSS/JS referencia, para no publicar fotos de
+    // varios MB sin usar.
+    {
+      name: 'vbk-prune-unreferenced-originals',
+      hooks: {
+        'astro:build:done': async ({ dir }) => {
+          const root = fileURLToPath(dir);
+          const assetsDir = path.join(root, '_astro');
+          if (!fs.existsSync(assetsDir)) return;
+          const textExt = /\.(html|css|js|mjs|json|xml|txt|webmanifest|svg)$/i;
+          let haystack = '';
+          const walk = (d) => {
+            for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+              const full = path.join(d, entry.name);
+              if (entry.isDirectory()) walk(full);
+              else if (textExt.test(entry.name)) haystack += fs.readFileSync(full, 'utf8');
+            }
+          };
+          walk(root);
+          for (const name of fs.readdirSync(assetsDir)) {
+            if (/\.(avif|webp|jpe?g|png)$/i.test(name) && !haystack.includes(name)) {
+              fs.rmSync(path.join(assetsDir, name));
+            }
+          }
+        },
+      },
+    },
     ...(isNode
       ? []
       : [

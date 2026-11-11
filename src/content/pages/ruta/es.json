@@ -179,51 +179,51 @@
   "lightboxClose": "Cerrar galería",
   "galeria": [
     {
-      "src": "/img/carrera.avif",
+      "src": "../../../assets/img/carrera.avif",
       "alt": "Competencia en curso"
     },
     {
-      "src": "/img/salto.avif",
+      "src": "../../../assets/img/salto.avif",
       "alt": "Salto en competencia"
     },
     {
-      "src": "/img/terreno.avif",
+      "src": "../../../assets/img/terreno.avif",
       "alt": "Terreno de carrera"
     },
     {
-      "src": "/img/ruta.avif",
+      "src": "../../../assets/img/ruta.avif",
       "alt": "Recorrido de competencia"
     },
     {
-      "src": "/img/bajada.avif",
+      "src": "../../../assets/img/bajada.avif",
       "alt": "Descenso en competencia"
     },
     {
-      "src": "/img/pista.avif",
+      "src": "../../../assets/img/pista.avif",
       "alt": "Pista de competencia"
     },
     {
-      "src": "/img/resultados_hombre.avif",
+      "src": "../../../assets/img/resultados_hombre.avif",
       "alt": "Competidor masculino"
     },
     {
-      "src": "/img/resultados_mujer.avif",
+      "src": "../../../assets/img/resultados_mujer.avif",
       "alt": "Competidora femenina"
     },
     {
-      "src": "/img/valdivia_1.avif",
+      "src": "../../../assets/img/valdivia_1.avif",
       "alt": "Valdivia paisaje 1"
     },
     {
-      "src": "/img/valdivia_2.avif",
+      "src": "../../../assets/img/valdivia_2.avif",
       "alt": "Valdivia paisaje 2"
     },
     {
-      "src": "/img/valdivia_3.avif",
+      "src": "../../../assets/img/valdivia_3.avif",
       "alt": "Valdivia paisaje 3"
     },
     {
-      "src": "/img/valdivia_4.avif",
+      "src": "../../../assets/img/valdivia_4.avif",
       "alt": "Valdivia paisaje 4"
     }
   ]

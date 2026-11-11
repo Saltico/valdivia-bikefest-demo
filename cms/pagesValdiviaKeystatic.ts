@@ -9,6 +9,11 @@ import { localeField } from './utils/localeField';
 
 export const basePath = 'src/content/pages/valdivia';
 
+/** Imágenes subidas desde el panel: viven en src/assets/img (Astro las optimiza). */
+export const imageDirectory = 'src/assets/img';
+/** Ruta relativa desde src/content/pages/valdivia/*.json hasta src/assets/img. */
+export const imagePublicPath = '../../../assets/img/';
+
 /** Íconos disponibles para la nav lateral de destinos (SVG en ValdiviaPage.astro). */
 export const destinationNavIcons = ['forest', 'volcano', 'waves', 'beer', 'fortress'] as const;
 
@@ -73,9 +78,11 @@ export const keystaticPagesValdiviaConfig = {
           }),
           description: fields.text({ label: 'Descripción', multiline: true, validation: { isRequired: true } }),
           bgAlt: fields.text({ label: 'Alt de la foto de fondo', validation: { isRequired: true } }),
-          image: fields.text({
-            label: 'Ruta de imagen',
-            description: 'Ruta de imagen, p. ej. /img/valdivia_hero.avif (el archivo vive en src/assets/img y se optimiza en build: avif/webp responsive).',
+          image: fields.image({
+            label: 'Foto de fondo',
+            description: 'JPG, PNG, WebP o AVIF; máx. 2560 px de ancho y ~5 MB. Se optimiza en build (avif/webp responsive).',
+            directory: imageDirectory,
+            publicPath: imagePublicPath,
             validation: { isRequired: true },
           }),
           infoLabel: fields.text({ label: 'Botón — Información (etiqueta)', validation: { isRequired: true } }),
