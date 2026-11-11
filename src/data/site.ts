@@ -51,12 +51,17 @@ export const sportsEventSchema: Record<string, unknown> = {
   location: {
     '@type': 'Place',
     name: 'Complejo deportivo Asenav',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Alonso Doce 998',
-      addressLocality: 'Valdivia',
-      addressCountry: 'CL',
-    },
+    // Dirección desde PUBLIC_CONTACT_ADDRESS (env), nunca hardcodeada.
+    ...(siteContact.address
+      ? {
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: siteContact.address,
+            addressLocality: 'Valdivia',
+            addressCountry: 'CL',
+          },
+        }
+      : {}),
   },
   url: new URL(withBase('/'), siteBrand.siteUrl).toString(),
 };
