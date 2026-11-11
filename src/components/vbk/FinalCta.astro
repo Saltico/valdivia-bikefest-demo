@@ -4,7 +4,7 @@
 // en site-spec.json), <em> en ink, CTA Inscríbete externa + link Contacto.
 
 import { REGISTRATION_URL } from '@/data/site';
-import { commonCopy } from '@/i18n/common';
+import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -14,8 +14,18 @@ export interface Props {
 }
 
 const { locale = defaultLocale, sectionId } = Astro.props;
-const common = commonCopy[locale];
+
+// Textos compartidos + ajustes desde Keystatic (colecciones siteCommon/siteSettings)
+const commonEntry = await getEntry('siteCommon', locale);
+if (!commonEntry) {
+  throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
+}
+const common = commonEntry.data;
 const cta = common.finalCta;
+
+// URL de inscripción editable vía CMS; fallback al valor por defecto de site.ts
+const settingsEntry = await getEntry('siteSettings', 'index');
+const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 ---
 
 <section class="final-cta" id={sectionId} aria-labelledby="final-cta-title">
@@ -28,7 +38,7 @@ const cta = common.finalCta;
     <div class="cta-actions">
       <a
         class="button button-lime"
-        href={REGISTRATION_URL}
+        href={registrationUrl}
         target="_blank"
         rel="noopener"
         data-registration

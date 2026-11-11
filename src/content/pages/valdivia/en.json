@@ -1,0 +1,83 @@
+{
+  "locale": "en",
+  "metaTitle": "Discover Valdivia and its surroundings | Valdivia Bike Fest",
+  "metaDescription": "Explore the landscapes, forests, wetlands, volcanoes, and heritage of Valdivia and the Los Ríos Region before or after enjoying Valdivia Bike Fest.",
+  "hero": {
+    "kicker": "Valdivia Bike Fest / Valdivia",
+    "headingHtml": "Race in the<br><em>city of water</em>",
+    "hiddenH1": "Discover Valdivia and its surroundings"
+  },
+  "navLabel": "Destinations navigation",
+  "destinations": [
+    {
+      "id": "alerce-costero",
+      "navLabel": "Forests",
+      "navIcon": "forest",
+      "kicker": "01 / 05 — National Park",
+      "titleHtml": "Alerce Costero: <span class=\"destination-title-accent\">ancient forests</span> by the Pacific",
+      "description": "Enter one of the most biodiverse temperate forests on the planet. Alerce Costero National Park is home to millenary trees, trails among myrtles and coigües, and unique coastal landscapes in the Los Ríos Region.",
+      "bgAlt": "Millenary alerce forest in Alerce Costero National Park, with centuries-old moss-covered trees",
+      "image": "/img/valdivia_parque_nacional_alerce_costero.avif",
+      "infoLabel": "Official information",
+      "infoHref": "https://www.conaf.cl/regiones/los-rios/",
+      "mapLabel": "View on map",
+      "mapHref": "https://www.google.com/maps/search/?api=1&query=Parque+Nacional+Alerce+Costero+Chile"
+    },
+    {
+      "id": "mocho-choshuenco",
+      "navLabel": "Volcano",
+      "navIcon": "volcano",
+      "kicker": "02 / 05 — Volcano and Reserve",
+      "titleHtml": "Mocho Choshuenco: mountains, <span class=\"destination-title-accent\">snow and adventure</span>",
+      "description": "Climb to the crater of this active volcano and discover a turquoise lagoon at its summit. Mocho Choshuenco National Reserve offers trekking, winter sports, and panoramic views of the Andes and the Pacific Ocean.",
+      "bgAlt": "Mocho Choshuenco volcano with its snow-capped summit and crater lagoon, surrounded by native forest",
+      "image": "/img/valdivia_volcan_mocho_choshuenco.avif",
+      "infoLabel": "Official information",
+      "infoHref": "https://www.conaf.cl/parque_nacionales/reserva-nacional-mocho-choshuenco/",
+      "mapLabel": "View on map",
+      "mapHref": "https://www.google.com/maps/search/?api=1&query=Reserva+Nacional+Mocho+Choshuenco+Chile"
+    },
+    {
+      "id": "punucapa",
+      "navLabel": "Wetlands",
+      "navIcon": "waves",
+      "kicker": "03 / 05 — Wetlands and Rivers",
+      "titleHtml": "Punucapa: <span class=\"destination-title-accent\">wetlands</span>, rivers and nature",
+      "description": "Navigate the Punucapa wetlands, a unique ecosystem where rivers meet the forest. Observe native birds, explore trails among aquatic vegetation, and discover the biodiversity of Valdivian wetlands.",
+      "bgAlt": "Punucapa wetlands with calm waters reflecting the sky and native vegetation",
+      "image": "/img/valdivia_humedal_punucapa.avif",
+      "infoLabel": "Official information",
+      "infoHref": "https://www.cehum.org/",
+      "mapLabel": "View on map",
+      "mapHref": "https://www.google.com/maps/search/?api=1&query=Punucapa+Valdivia+Chile"
+    },
+    {
+      "id": "cervezas",
+      "navLabel": "Breweries",
+      "navIcon": "beer",
+      "kicker": "04 / 05 — Local Gastronomy",
+      "titleHtml": "The <span class=\"destination-title-accent\">brewing tradition</span> of Valdivia",
+      "description": "Valdivia is the birthplace of craft beer in Chile. Discover the German-Valdivian brewing heritage, visit historic breweries like Kunstmann and Schopfloch, and taste unique beers made with local ingredients.",
+      "bgAlt": "Valdivian craft brewery with wooden barrels and a traditional atmosphere",
+      "image": "/img/valdivia_vida_nocturna.avif",
+      "infoLabel": "Official information",
+      "infoHref": "https://www.sernatur.cl/region/los-rios/",
+      "mapLabel": "View on map",
+      "mapHref": "https://www.google.com/maps/search/?api=1&query=Cerveceria+Kunstmann+Valdivia+Chile"
+    },
+    {
+      "id": "fuerte-niebla",
+      "navLabel": "History",
+      "navIcon": "fortress",
+      "kicker": "05 / 05 — Historical Heritage",
+      "titleHtml": "Fuerte Niebla: <span class=\"destination-title-accent\">history</span> by the sea",
+      "description": "Visit the Castillo de Niebla, one of the most important Spanish colonial fortresses in South America. Explore its walls, museums, and cannons while enjoying panoramic views of Valdivia Bay and the Calle-Calle River.",
+      "bgAlt": "Castillo de Niebla, a historic Spanish fortress overlooking Valdivia Bay",
+      "image": "/img/valdivia_fuerte_niebla.avif",
+      "infoLabel": "Official information",
+      "infoHref": "https://www.monumentos.gob.cl/monumentos/monumentos-historicos/castillo-de-niebla",
+      "mapLabel": "View on map",
+      "mapHref": "https://www.google.com/maps/search/?api=1&query=Castillo+de+Niebla+Valdivia+Chile"
+    }
+  ]
+}

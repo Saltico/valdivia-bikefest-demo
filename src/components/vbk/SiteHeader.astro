@@ -2,11 +2,11 @@
 // src/components/vbk/SiteHeader.astro
 // Header fijo transparente que se solidifica al hacer scroll (JS global).
 // Logo invertido a la izquierda, nav central, switcher ES/EN (enlace real a
-// la misma página en el otro locale), CTA Inscríbete y menú móvil con
-// focus trap. Mobile: CTA de inscripción a ancho completo.
+// la misma pÃ¡gina en el otro locale), CTA InscrÃ­bete y menÃº mÃ³vil con
+// focus trap. Mobile: CTA de inscripciÃ³n a ancho completo.
 
 import { siteBrand, REGISTRATION_URL } from '@/data/site';
-import { commonCopy } from '@/i18n/common';
+import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, alternateLocalePath, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -16,7 +16,17 @@ export interface Props {
 }
 
 const { locale = defaultLocale, path = '/' } = Astro.props;
-const common = commonCopy[locale];
+
+// Textos compartidos + ajustes desde Keystatic (colecciones siteCommon/siteSettings)
+const commonEntry = await getEntry('siteCommon', locale);
+if (!commonEntry) {
+  throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
+}
+const common = commonEntry.data;
+
+// URL de inscripciÃ³n editable vÃ­a CMS; fallback al valor por defecto de site.ts
+const settingsEntry = await getEntry('siteSettings', 'index');
+const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 
 const navItems = common.nav.map((item) => ({
   ...item,
@@ -56,7 +66,7 @@ const altLabel = altLocale.toUpperCase();
     </a>
     <a
       class="button button-small button-lime"
-      href={REGISTRATION_URL}
+      href={registrationUrl}
       target="_blank"
       rel="noopener"
       data-registration
@@ -84,7 +94,7 @@ const altLabel = altLocale.toUpperCase();
   </nav>
   <a
     class="button button-lime"
-    href={REGISTRATION_URL}
+    href={registrationUrl}
     target="_blank"
     rel="noopener"
     data-registration

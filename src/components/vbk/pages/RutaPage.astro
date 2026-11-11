@@ -1,14 +1,14 @@
 ---
 // src/components/vbk/pages/RutaPage.astro
-// /ruta: hero edición 2027, datos clave (5 íconos), formatos XCO/XCC,
-// programa por día, categorías, galería y CTA final. Fuente: ruta.html.
-// La sección "Congreso técnico" del original está comentada hasta
-// confirmación oficial (warning del spec) — se conserva abajo como
+// /ruta: hero ediciÃ³n 2027, datos clave (5 Ã­conos), formatos XCO/XCC,
+// programa por dÃ­a, categorÃ­as, galerÃ­a y CTA final. Fuente: ruta.html.
+// La secciÃ³n "Congreso tÃ©cnico" del original estÃ¡ comentada hasta
+// confirmaciÃ³n oficial (warning del spec) â€” se conserva abajo como
 // comentario listo para activar.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
-import { rutaCopy, type CircuitCard } from '@/i18n/ruta';
+import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -16,9 +16,17 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const t = rutaCopy[locale];
 
-// Íconos SVG lineales del original (stroke currentColor 1.5)
+// Contenido de /ruta desde la colecciÃ³n Keystatic `pagesRuta`
+// (src/content/pages/ruta/{locale}.json). El schema espeja el copy original
+// de la Fase 1, asÃ­ que el template no cambia.
+const rutaEntry = await getEntry('pagesRuta', locale);
+if (!rutaEntry) {
+  throw new Error(`[pagesRuta] No existe la entrada '${locale}' (src/content/pages/ruta/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Ruta y horario).`);
+}
+const t = rutaEntry.data;
+
+// Ãconos SVG lineales del original (stroke currentColor 1.5)
 const icons: Record<string, string> = {
   calendar:
     '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="12" y1="11" x2="12" y2="15"/></svg>',
@@ -30,7 +38,7 @@ const icons: Record<string, string> = {
   uci: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
 };
 
-// Dimensiones intrínsecas (evita CLS; ver public/img): checklist SEO "width/height".
+// Dimensiones intrÃ­nsecas (evita CLS; ver public/img): checklist SEO "width/height".
 const imageDims: Record<string, { width: number; height: number }> = {
   '/img/ruta.avif': { width: 4000, height: 2665 },
   '/img/carrera.avif': { width: 4000, height: 2667 },
@@ -46,8 +54,8 @@ const imageDims: Record<string, { width: number; height: number }> = {
   '/img/valdivia_4.avif': { width: 5266, height: 2962 },
 };
 
-// duplicado para el loop infinito del track; la 2ª mitad queda oculta al
-// árbol de accesibilidad y fuera del tab-order (elementos repetidos).
+// duplicado para el loop infinito del track; la 2Âª mitad queda oculta al
+// Ã¡rbol de accesibilidad y fuera del tab-order (elementos repetidos).
 const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
   ...image,
   ...imageDims[image.src],
@@ -56,8 +64,8 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
 ---
 
 <BaseLayout
-  title={t.meta.title}
-  description={t.meta.description}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/ruta"
   locale={locale}
 >
@@ -91,7 +99,7 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
         <p class="section-kicker animate-on-scroll">{t.formatos.kicker}</p>
         <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.formatos.headingHtml} />
         <div class="event-formats-grid">
-          {t.formatos.cards.map((card: CircuitCard, index: Number) => (
+          {t.formatos.cards.map((card, index) => (
             <div class="circuit-card animate-on-scroll" style={`transition-delay:${0.15 + Number(index) * 0.05}s`}>
               <div class="circuit-header">
                 <span class="circuit-label">{card.label}</span>
@@ -141,19 +149,19 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
       </section>
 
       <!--
-        CONGRESO TÉCNICO — omitido hasta confirmación oficial (warning del
+        CONGRESO TÃ‰CNICO â€” omitido hasta confirmaciÃ³n oficial (warning del
         site-spec). Activar este bloque cuando se confirme la fecha:
 
         <section class="event-congress-section">
           <div class="event-congress-panel">
             <div class="congress-header">
               <span class="congress-status">POR CONFIRMAR</span>
-              <h2>Congreso técnico</h2>
+              <h2>Congreso tÃ©cnico</h2>
             </div>
-            <p class="congress-description">El congreso técnico es la reunión obligatoria donde se definen los horarios de largada, el número de vueltas por categoría, y la reglamentación específica de la competencia. Se realiza antes del inicio de las competencias.</p>
+            <p class="congress-description">El congreso tÃ©cnico es la reuniÃ³n obligatoria donde se definen los horarios de largada, el nÃºmero de vueltas por categorÃ­a, y la reglamentaciÃ³n especÃ­fica de la competencia. Se realiza antes del inicio de las competencias.</p>
             <p class="congress-note">La fecha y hora exactas se comunican oportunamente a todos los inscritos.</p>
             <div class="congress-footer">
-              <span class="congress-icon">⚑</span>
+              <span class="congress-icon">âš‘</span>
               <span>Asistencia obligatoria para todos los corredores</span>
             </div>
           </div>

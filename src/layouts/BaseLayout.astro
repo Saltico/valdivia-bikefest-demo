@@ -15,7 +15,7 @@ import SiteHeader from '@/components/vbk/SiteHeader.astro';
 import SiteFooter from '@/components/vbk/SiteFooter.astro';
 import { organizationSchema, websiteSchema, getSiteUrl } from '@/lib/seo';
 import { initAnalytics } from '@/lib/analytics';
-import { commonCopy } from '@/i18n/common';
+import { getEntry } from 'astro:content';
 import {
   locales,
   defaultLocale,
@@ -44,8 +44,15 @@ const {
   jsonLd,
 } = Astro.props;
 
+// Textos compartidos (header, footer, a11y) desde la colección Keystatic
+// `siteCommon` — una entrada por idioma (src/content/common/{locale}.json).
+const commonEntry = await getEntry('siteCommon', locale);
+if (!commonEntry) {
+  throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json). Créala o edítala en el CMS (Keystatic → Textos compartidos).`);
+}
+const common = commonEntry.data;
+
 const canonical = getSiteUrl(localePath(locale, path));
-const common = commonCopy[locale];
 
 // hreflang alternates: misma página en cada locale soportado
 const hreflang: Record<string, string> = {};

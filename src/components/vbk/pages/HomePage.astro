@@ -1,14 +1,13 @@
 ---
 // src/components/vbk/pages/HomePage.astro
-// Home: hero full-viewport con señal + cuenta regresiva al 14-mar-2027
+// Home: hero full-viewport con seÃ±al + cuenta regresiva al 14-mar-2027
 // 14:10 America/Santiago, secciones evento/ruta/schedule/resultados/valdivia
 // y CTA final. Fuente: index.html original + site-spec.json.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
 import { REGISTRATION_URL, EVENT_TARGET_DATE, sportsEventSchema } from '@/data/site';
-import { commonCopy } from '@/i18n/common';
-import { homeCopy } from '@/i18n/home';
+import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -16,13 +15,32 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const t = homeCopy[locale];
-const common = commonCopy[locale];
+
+// Contenido de la home desde la colecciÃ³n Keystatic `pagesHome`
+// (src/content/pages/home/{locale}.json). El schema espeja el copy original
+// de la Fase 1, asÃ­ que el template no cambia.
+const homeEntry = await getEntry('pagesHome', locale);
+if (!homeEntry) {
+  throw new Error(`[pagesHome] No existe la entrada '${locale}' (src/content/pages/home/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Inicio).`);
+}
+const t = homeEntry.data;
+
+// Textos compartidos (botÃ³n InscrÃ­bete del hero) desde siteCommon
+const commonEntry = await getEntry('siteCommon', locale);
+if (!commonEntry) {
+  throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
+}
+const common = commonEntry.data;
+
+// Ajustes editables vÃ­a CMS (singleton siteSettings); fallback a site.ts
+const settingsEntry = await getEntry('siteSettings', 'index');
+const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
+const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE;
 ---
 
 <BaseLayout
-  title={t.meta.title}
-  description={t.meta.description}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/"
   locale={locale}
   jsonLd={sportsEventSchema}
@@ -52,7 +70,7 @@ const common = commonCopy[locale];
           <div class="hero-actions">
             <a
               class="button button-lime"
-              href={REGISTRATION_URL}
+              href={registrationUrl}
               target="_blank"
               rel="noopener"
               data-registration
@@ -73,7 +91,7 @@ const common = commonCopy[locale];
         <div
           class="countdown"
           data-countdown
-          data-date={EVENT_TARGET_DATE}
+          data-date={eventTargetDate}
           data-end-message={t.endMessage}
         >
           <div>

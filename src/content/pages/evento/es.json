@@ -1,0 +1,115 @@
+{
+  "locale": "es",
+  "metaTitle": "El evento | Valdivia Bike Fest",
+  "metaDescription": "Conoce Valdivia Bike Fest: una competencia internacional de mountain bike UCI en Valdivia, Chile. Identidad, propósito, comunidad y la historia de un evento que crece cada año.",
+  "hero": {
+    "kicker": "Valdivia Bike Fest / El evento",
+    "headingHtml": "La carrera<br>empieza <em>antes</em>",
+    "intro": "Más que una competencia: un punto de encuentro entre el mountain bike continental y la comunidad ciclista del sur de Chile.",
+    "bgAlt": "Paisaje natural del sur de Chile, bosques y ríos de Valdivia"
+  },
+  "organizers": [
+    {
+      "role": "Organiza",
+      "name": "MVK Sports",
+      "detail": "Club Ciclismo Ríos Cruces, Valdivia"
+    },
+    {
+      "role": "Fiscaliza",
+      "name": "Fedenacich",
+      "detail": "Federación de Ciclismo de Chile"
+    },
+    {
+      "role": "Respaldo internacional",
+      "name": "COPACI",
+      "detail": "Confederación Panamericana de Ciclismo"
+    }
+  ],
+  "queEs": {
+    "kicker": "¿Qué es?",
+    "headingHtml": "Un evento<br><em>internacional</em> de mountain bike",
+    "leadHtml": "Valdivia Bike Fest es una competencia internacional de mountain bike que se realiza en Valdivia, Región de Los Ríos, Chile. Organizada como fecha del <strong>American Continental Series MTB</strong>, el evento reúne a referentes del cross-country continental y ofrece una experiencia competitiva de alto nivel en uno de los entornos naturales más distintivos del sur de Chile.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Calendario UCI",
+        "text": "Fecha del American Continental Series MTB con puntaje para el ranking mundial."
+      },
+      {
+        "n": "02",
+        "title": "Dos formatos",
+        "text": "Cross-Country Olímpico (XCO) y Short Track (XCC) en una misma sede."
+      },
+      {
+        "n": "03",
+        "title": "Seleccionadores nacionales",
+        "text": "Primera fecha selectiva para la Selección Nacional de Chile."
+      }
+    ]
+  },
+  "proposito": {
+    "kicker": "Propósito",
+    "headingHtml": "Por qué<br><em>existe</em> este evento",
+    "items": [
+      {
+        "title": "Desarrollar el mountain bike en Chile",
+        "text": "Generar competencias de nivel internacional que posicionen al país en el calendario continental y ofrezcan a los atletas chilenos la oportunidad de sumar puntos UCI sin salir de su territorio."
+      },
+      {
+        "title": "Oportunidades para atletas de distintos niveles",
+        "text": "Desde categorías Elite y Sub23 hasta Master, menores y promocional. El evento abre la puerta tanto a corredores consagrados como a quienes recién comienzan su camino competitivo."
+      },
+      {
+        "title": "Competencia y comunidad en un mismo lugar",
+        "text": "Combinar el alto rendimiento con un ambiente familiar e inclusivo, donde cada participante —sin importar su nivel— es parte fundamental del evento."
+      },
+      {
+        "title": "Posicionar a Valdivia como destino deportivo",
+        "text": "Que los riders internacionales conozcan el sur de Chile: sus bosques, sus ríos y la cultura de una ciudad que se vive mejor sin apuro."
+      }
+    ]
+  },
+  "internacional": {
+    "kicker": "Carácter internacional",
+    "headingHtml": "Del continente<br><em>para el mundo</em>",
+    "leadHtml": "Valdivia Bike Fest forma parte del calendario <strong>American Continental Series MTB</strong>, lo que significa que cada edición atrae a referentes del cross-country sudamericano y panamericano, incluyendo campeones continentales, medallistas olímpicos y equipos nacionales de todo el continente.",
+    "linkLabel": "Explora la ruta y el horario",
+    "dataItems": [
+      {
+        "label": "Calendario",
+        "value": "American Continental Series MTB"
+      },
+      {
+        "label": "Puntaje",
+        "value": "Ranking mundial UCI"
+      },
+      {
+        "label": "Selectivo",
+        "value": "1ª fecha Selección Nacional Chile"
+      },
+      {
+        "label": "Fiscaliza",
+        "value": "Fedenacich + COPACI"
+      }
+    ]
+  },
+  "comunidad": {
+    "kicker": "Comunidad",
+    "headingHtml": "Un evento<br><em>para todos</em>",
+    "copy": "Valdivia Bike Fest no es solo para atletas de élite. Es un evento familiar e inclusivo donde la comunidad de riders, familias y seguidores del mountain bike se encuentra en torno a la competencia y la naturaleza.",
+    "features": [
+      {
+        "title": "Categorías abiertas",
+        "text": "Short Track Open y Promocional para quienes quieren vivir la experiencia de competencia sin necesidad de licencia UCI."
+      },
+      {
+        "title": "Menores y cadetes",
+        "text": "Categorías desde pre-juvenil hasta juvenil, para que las nuevas generaciones crezcan en el deporte."
+      },
+      {
+        "title": "Master A, B, C y D",
+        "text": "Desde los 30 hasta los 60 y más. La competencia no tiene límite de edad."
+      }
+    ]
+  }
+}

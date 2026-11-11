@@ -1,14 +1,13 @@
 ---
 // src/components/vbk/pages/ResultadosPage.astro
 // /resultados: hero full-bleed con crossfade (2 fotos), barra de aviso con
-// badge "DATOS DE PRUEBA" y tablero XCO/XCC con tabs, chips de categoría,
-// tabla con renumeración y footer de tablero. Filas renderizadas
-// server-side desde demoResultsData (porte SSG del renderResultsTable
-// original). Fuente: resultados.html + script.js.
+// badge "DATOS DE PRUEBA" y tablero XCO/XCC con tabs, chips de categorÃ­a,
+// tabla con renumeraciÃ³n y footer de tablero. Filas renderizadas
+// server-side desde la colecciÃ³n pagesResultados (porte SSG del
+// renderResultsTable original). Fuente: resultados.html + script.js.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { resultadosCopy } from '@/i18n/resultados';
-import { demoResultsData } from '@/data/results';
+import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -16,38 +15,32 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const t = resultadosCopy[locale];
 
-// Slugs de categoría en el orden de los chips (mismos valores que
-// demoResultsData.cat — porte 1:1 del HTML original)
-const categorySlugs = [
-  'elite-m',
-  'elite-f',
-  'sub23-m',
-  'sub23-f',
-  'junior-m',
-  'junior-f',
-  'master-a',
-  'master-b',
-  'master-c',
-  'master-d',
-  'open',
-] as const;
+// Contenido de /resultados desde la colecciÃ³n Keystatic `pagesResultados`
+// (src/content/pages/resultados/{locale}.json): copy del hero/aviso/tablero
+// y las filas del tablero (datos de prueba hasta la fuente oficial de
+// cronometraje â€” warning del site-spec).
+const resultadosEntry = await getEntry('pagesResultados', locale);
+if (!resultadosEntry) {
+  throw new Error(`[pagesResultados] No existe la entrada '${locale}' (src/content/pages/resultados/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Resultados).`);
+}
+const t = resultadosEntry.data;
 
+// Chips de categorÃ­a: 'Todas' + las categorÃ­as editables (slug â†” etiqueta)
 const chips: Array<{ slug: string; label: string }> = [
   { slug: 'all', label: t.chipAll },
-  ...categorySlugs.map((slug, i) => ({ slug, label: t.categories[i] ?? slug })),
+  ...t.categories.map((category) => ({ slug: category.slug, label: category.label })),
 ];
 
-const panels: Array<{ id: 'xco' | 'xcc'; label: string; rows: typeof demoResultsData.xco }> = [
-  { id: 'xco', label: 'XCO', rows: demoResultsData.xco },
-  { id: 'xcc', label: 'XCC', rows: demoResultsData.xcc },
+const panels = [
+  { id: 'xco' as const, label: 'XCO', rows: t.xcoRows },
+  { id: 'xcc' as const, label: 'XCC', rows: t.xccRows },
 ];
 ---
 
 <BaseLayout
-  title={t.meta.title}
-  description={t.meta.description}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/resultados"
   locale={locale}
 >

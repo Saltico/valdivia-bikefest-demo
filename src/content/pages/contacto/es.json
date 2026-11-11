@@ -1,0 +1,22 @@
+{
+  "locale": "es",
+  "metaTitle": "Contacto | Valdivia Bike Fest",
+  "metaDescription": "Contacta al equipo de Valdivia Bike Fest.",
+  "hero": {
+    "kicker": "Valdivia Bike Fest / Contacto",
+    "headingHtml": "Hablemos de la <em>ruta</em>",
+    "intro": "¿Tienes una pregunta sobre el evento, la inscripción o la información que falta? Escríbenos y te responderemos desde Valdivia.",
+    "bgAlt": "Competidor saltando en Valdivia Bike Fest"
+  },
+  "form": {
+    "titleHtml": "Escríbenos <em>un mensaje</em>",
+    "nameLabel": "Nombre",
+    "emailLabel": "Email",
+    "messageLabel": "Mensaje",
+    "submitLabel": "Enviar mensaje",
+    "successTitle": "¡Mensaje enviado!",
+    "successText": "Gracias por contactarnos. Te responderemos a la brevedad.",
+    "toast": "Mensaje enviado. Se abrió tu aplicación de correo con el mensaje listo para enviar."
+  },
+  "mapTitle": "Ubicación Complejo Asenav, Valdivia"
+}

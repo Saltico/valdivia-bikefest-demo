@@ -1,0 +1,22 @@
+{
+  "locale": "en",
+  "metaTitle": "Contact Valdivia Bike Fest | Registration, venue & schedule",
+  "metaDescription": "Contact the Valdivia Bike Fest team: ask about registration, categories, schedule, the ASENAV venue, or your trip to Valdivia before race day.",
+  "hero": {
+    "kicker": "Valdivia Bike Fest / Contact",
+    "headingHtml": "Let's talk<br>about the <em>route</em>",
+    "intro": "Have a question about the event, registration, or missing information? Write to us and we will answer from Valdivia.",
+    "bgAlt": "Competitor jumping at Valdivia Bike Fest"
+  },
+  "form": {
+    "titleHtml": "Send us <em>a message</em>",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "submitLabel": "Send message",
+    "successTitle": "Message sent!",
+    "successText": "Thanks for reaching out. We will get back to you shortly.",
+    "toast": "Message sent. Your email app opened with the message ready to send."
+  },
+  "mapTitle": "ASENAV Sports Complex location, Valdivia"
+}

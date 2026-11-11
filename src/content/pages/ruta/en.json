@@ -1,0 +1,230 @@
+{
+  "locale": "en",
+  "metaTitle": "Route & schedule | Valdivia Bike Fest 2027: full program",
+  "metaDescription": "Everything about the 2027 edition of Valdivia Bike Fest: schedule, XCO and XCC circuits, categories, technical meeting, venue, and registration.",
+  "hero": {
+    "kicker": "Valdivia Bike Fest / 2027 Edition",
+    "headingHtml": "Two circuits<br><em>One venue</em>",
+    "intro": "Everything you need to know about the 2027 edition: dates, circuits, categories, schedule, and registration."
+  },
+  "keyData": [
+    {
+      "icon": "calendar",
+      "label": "Date",
+      "value": "10–14 March 2027"
+    },
+    {
+      "icon": "people",
+      "label": "Venue",
+      "value": "C.D. ASENAV, Valdivia"
+    },
+    {
+      "icon": "clock",
+      "label": "First activity",
+      "value": "Wed 10 Mar — 9:00 AM"
+    },
+    {
+      "icon": "flag",
+      "label": "Formats",
+      "value": "XCO / XCC"
+    },
+    {
+      "icon": "uci",
+      "label": "UCI points",
+      "value": "World ranking"
+    }
+  ],
+  "formatos": {
+    "kicker": "Race formats",
+    "headingHtml": "Two circuits<br><em>One venue</em>",
+    "cards": [
+      {
+        "label": "Circuit 01",
+        "name": "XCO",
+        "fullName": "Cross-Country Olympic",
+        "metrics": [
+          {
+            "value": "~3.6",
+            "unit": "km",
+            "label": "Distance per lap"
+          },
+          {
+            "value": "~170",
+            "unit": "m",
+            "label": "Elevation gain"
+          },
+          {
+            "value": "1",
+            "unit": "point",
+            "label": "Feed zone"
+          }
+        ],
+        "details": "Technical circuit with forest sectors, climbs, and descents. Spectator zones allow you to follow the race at strategic points.",
+        "statusLabel": "Schedule",
+        "statusValue": "Set at the technical meeting"
+      },
+      {
+        "label": "Circuit 02",
+        "name": "XCC",
+        "fullName": "Short Track",
+        "metrics": [
+          {
+            "value": "~0.81",
+            "unit": "km",
+            "label": "Distance per lap"
+          },
+          {
+            "value": "~18",
+            "unit": "m",
+            "label": "Elevation gain"
+          },
+          {
+            "value": "~20",
+            "unit": "min",
+            "label": "Approx. duration"
+          }
+        ],
+        "details": "Short and explosive circuit. Intense race format with multiple laps. 2026 reference: ~10 laps Elite Men, ~9 Elite Women.",
+        "statusLabel": "Schedule",
+        "statusValue": "Set at the technical meeting"
+      }
+    ],
+    "note": "Schedules, laps, and categories are set at the technical meeting."
+  },
+  "programa": {
+    "kicker": "Schedule",
+    "headingHtml": "Five days<br>lived in <em>full</em>",
+    "rows": [
+      {
+        "n": "01",
+        "day": "Wednesday, March 10",
+        "activity": "Kit pickup + accreditation — 9:00 AM",
+        "status": "confirmed",
+        "statusLabel": "Confirmed"
+      },
+      {
+        "n": "02",
+        "day": "Thursday, March 11",
+        "activity": "Technical meeting — Time TBC",
+        "status": "pending",
+        "statusLabel": "Pending"
+      },
+      {
+        "n": "03",
+        "day": "Friday, March 12",
+        "activity": "Races — Time TBC",
+        "status": "pending",
+        "statusLabel": "Pending"
+      },
+      {
+        "n": "04",
+        "day": "Saturday, March 13",
+        "activity": "Races — Time TBC",
+        "status": "pending",
+        "statusLabel": "Pending"
+      },
+      {
+        "n": "05",
+        "day": "Sunday, March 14",
+        "activity": "Final starts + awards — Time TBC",
+        "status": "pending",
+        "statusLabel": "Pending"
+      }
+    ]
+  },
+  "categorias": {
+    "kicker": "Categories",
+    "headingHtml": "All the<br><em>categories</em>",
+    "groups": [
+      {
+        "title": "UCI International",
+        "items": [
+          "Elite Men",
+          "Elite Women",
+          "Sub23 Men",
+          "Sub23 Women",
+          "Junior Men",
+          "Junior Women"
+        ]
+      },
+      {
+        "title": "Master",
+        "items": [
+          "Master A (30–39)",
+          "Master B (40–49)",
+          "Master C (50–59)",
+          "Master D (60+)"
+        ]
+      },
+      {
+        "title": "Open",
+        "items": [
+          "Short Track Open",
+          "Promotional"
+        ]
+      },
+      {
+        "title": "Youth",
+        "items": [
+          "Cadet",
+          "Youth",
+          "Pre-youth"
+        ]
+      }
+    ],
+    "note": "Category list subject to official confirmation."
+  },
+  "galeriaLabel": "Race gallery",
+  "lightboxLabel": "Expanded gallery",
+  "lightboxClose": "Close gallery",
+  "galeria": [
+    {
+      "src": "/img/carrera.avif",
+      "alt": "Race in progress"
+    },
+    {
+      "src": "/img/salto.avif",
+      "alt": "Jump during the race"
+    },
+    {
+      "src": "/img/terreno.avif",
+      "alt": "Race terrain"
+    },
+    {
+      "src": "/img/ruta.avif",
+      "alt": "Race course"
+    },
+    {
+      "src": "/img/bajada.avif",
+      "alt": "Descent during the race"
+    },
+    {
+      "src": "/img/pista.avif",
+      "alt": "Race track"
+    },
+    {
+      "src": "/img/resultados_hombre.avif",
+      "alt": "Male competitor"
+    },
+    {
+      "src": "/img/resultados_mujer.avif",
+      "alt": "Female competitor"
+    },
+    {
+      "src": "/img/valdivia_1.avif",
+      "alt": "Valdivia landscape 1"
+    },
+    {
+      "src": "/img/valdivia_2.avif",
+      "alt": "Valdivia landscape 2"
+    },
+    {
+      "src": "/img/valdivia_3.avif",
+      "alt": "Valdivia landscape 3"
+    },
+    {
+      "src": "/img/valdivia_4.avif",
+      "alt": "Valdivia landscape 4"
+    }
+  ]
+}

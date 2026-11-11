@@ -4,7 +4,7 @@
 // páginas — Evento, Ruta y horario, Resultados, Valdivia, Contacto.
 
 import { siteBrand } from '@/data/site';
-import { commonCopy } from '@/i18n/common';
+import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -12,7 +12,13 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const common = commonCopy[locale];
+
+// Textos compartidos desde Keystatic (colección siteCommon)
+const commonEntry = await getEntry('siteCommon', locale);
+if (!commonEntry) {
+  throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
+}
+const common = commonEntry.data;
 const links = common.nav.map((item) => ({ ...item, href: localePath(locale, item.href) }));
 ---
 

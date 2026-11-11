@@ -1,0 +1,125 @@
+{
+  "locale": "en",
+  "metaTitle": "Valdivia Bike Fest | Mountain bike race in Valdivia",
+  "metaDescription": "Valdivia Bike Fest: a mountain bike race in Valdivia, Chile. Learn about the event, explore the route, check the schedule, and get ready to register.",
+  "signal": "Valdivia / Chile",
+  "signalBrand": "VBF / NEXT EDITION",
+  "headingHtml": "The route<br><em>is waiting</em>",
+  "intro": "A mountain bike competition between forest, water, and city. Save your place at the start line and know the terrain before you arrive.",
+  "exploreRoute": "Explore the route",
+  "status": "Next edition",
+  "statusAriaLabel": "Event status",
+  "countdown": {
+    "days": "days",
+    "hours": "hours",
+    "minutes": "min",
+    "seconds": "sec"
+  },
+  "statusMessage": "10–14 March 2027",
+  "endMessage": "Race day is live",
+  "evento": {
+    "kicker": "The event",
+    "headingHtml": "Five days<br><em>Two formats</em>",
+    "lead": "Valdivia Bike Fest brings together those who come for the challenge and stay for the landscape. Everything you need to prepare for your race, in one place.",
+    "linkLabel": "Discover the event",
+    "gridLabel": "WHAT YOU'LL FIND",
+    "items": [
+      {
+        "n": "01",
+        "titleHtml": "Two race<br>formats",
+        "text": "XCO and XCC circuits in Valdivia."
+      },
+      {
+        "n": "02",
+        "titleHtml": "Information<br>without surprises",
+        "text": "Route, schedule, and clear recommendations."
+      },
+      {
+        "n": "03",
+        "titleHtml": "The energy<br>of the pack",
+        "text": "A community that starts before pedaling."
+      }
+    ]
+  },
+  "ruta": {
+    "kicker": "Route & schedule",
+    "headingHtml": "Read the terrain<br>before you <em>ride it</em>",
+    "tabs": [
+      {
+        "id": "xco",
+        "index": "01",
+        "label": "XCO",
+        "sublabel": "Cross-Country Olympic · ~3.6 km per lap",
+        "state": "OFFICIAL",
+        "title": "XCO",
+        "description": "Cross-Country Olympic with start and finish at the ASENAV Sports Complex. A ~3.6 km circuit with ~170 m of climbing per lap, one feed zone and spectator sectors.",
+        "distance": "~3.6 km / lap",
+        "elevation": "~170 m / lap",
+        "time": "TBC"
+      },
+      {
+        "id": "xcc",
+        "index": "02",
+        "label": "XCC",
+        "sublabel": "Short Track · ~0.81 km per lap",
+        "state": "OFFICIAL",
+        "title": "XCC",
+        "description": "Short Track at the ASENAV Sports Complex: ~0.81 km and ~18 m of elevation per lap, lasting ~20 minutes. 2026 reference: ~10 laps Elite Men and ~9 Elite Women.",
+        "distance": "~0.81 km / lap",
+        "elevation": "~18 m / lap",
+        "time": "TBC"
+      }
+    ],
+    "dataLabels": {
+      "distance": "distance",
+      "elevation": "elevation",
+      "time": "schedule"
+    },
+    "footerNote": "Schedule and lap counts per category are defined at the technical meeting.",
+    "linkLabel": "View full route"
+  },
+  "schedule": {
+    "kicker": "Race day",
+    "headingHtml": "Everything<br>in its <em>time</em>",
+    "rows": [
+      {
+        "n": "01",
+        "title": "Kit pickup",
+        "when": "Wednesday, March 10, 9:00 AM",
+        "note": "Activities begin"
+      },
+      {
+        "n": "02",
+        "title": "Technical meeting",
+        "when": "Sunday, March 14, TBC",
+        "note": "All categories"
+      },
+      {
+        "n": "03",
+        "title": "Main start",
+        "when": "Sunday, March 14, 2:10 PM",
+        "note": "The clock starts here"
+      },
+      {
+        "n": "04",
+        "title": "Results",
+        "when": "After each finish",
+        "note": "Online query"
+      }
+    ]
+  },
+  "resultados": {
+    "kicker": "Results",
+    "headingHtml": "Your mark<br>stays <em>here</em>",
+    "copy": "When the race ends, find your time, your category, and where you placed in the pack. The official board awaits you on a single screen.",
+    "ctaLabel": "View full results",
+    "imageAlt": "Race finish line"
+  },
+  "valdivia": {
+    "kicker": "Valdivia",
+    "headingHtml": "Come to compete<br><em>Discover the city</em>",
+    "copy": "A city of rivers, rain, and deep green. Turn your race into a getaway and discover the place that gives this experience its character.",
+    "linkLabel": "Discover Valdivia",
+    "overlayPhraseHtml": "WHERE WATER<br>MEETS THE FOREST"
+  }
+}

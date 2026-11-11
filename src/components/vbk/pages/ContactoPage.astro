@@ -2,14 +2,14 @@
 // src/components/vbk/pages/ContactoPage.astro
 // /contacto: hero con foto + overlay, formulario (nombre/email/mensaje) con
 // canales compactos al lado y mapa de Google Maps a ancho completo.
-// Formulario: el original usaba action="#" (placeholder sin backend). Aquí
-// se sigue el patrón de la plantilla: POST a PUBLIC_FORM_ACTION
-// (Formspree/Getform) cuando está configurado; fallback mailto a
-// PUBLIC_CONTACT_EMAIL con mensaje de éxito client-side + toast.
+// Formulario: el original usaba action="#" (placeholder sin backend). AquÃ­
+// se sigue el patrÃ³n de la plantilla: POST a PUBLIC_FORM_ACTION
+// (Formspree/Getform) cuando estÃ¡ configurado; fallback mailto a
+// PUBLIC_CONTACT_EMAIL con mensaje de Ã©xito client-side + toast.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { siteBrand, siteContact, siteSocial } from '@/data/site';
-import { contactoCopy } from '@/i18n/contacto';
+import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -17,9 +17,17 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const t = contactoCopy[locale];
 
-// Patrón de la plantilla: endpoint externo si existe, mailto como fallback
+// Contenido de /contacto desde la colecciÃ³n Keystatic `pagesContacto`
+// (src/content/pages/contacto/{locale}.json). El email/Instagram/mapa siguen
+// viniendo de variables de entorno (PUBLIC_CONTACT_*) y src/data/site.ts.
+const contactoEntry = await getEntry('pagesContacto', locale);
+if (!contactoEntry) {
+  throw new Error(`[pagesContacto] No existe la entrada '${locale}' (src/content/pages/contacto/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Contacto).`);
+}
+const t = contactoEntry.data;
+
+// PatrÃ³n de la plantilla: endpoint externo si existe, mailto como fallback
 const formAction = import.meta.env.PUBLIC_FORM_ACTION ?? '';
 const useMailto = !formAction && siteContact.email;
 const mailtoAction = useMailto ? `mailto:${siteContact.email}` : '';
@@ -27,8 +35,8 @@ const isExternal = !!formAction;
 ---
 
 <BaseLayout
-  title={t.meta.title}
-  description={t.meta.description}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/contacto"
   locale={locale}
 >
@@ -86,7 +94,7 @@ const isExternal = !!formAction;
               {t.form.submitLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
             </button>
 
-            <!-- Mensaje de éxito (oculto por defecto; fallback mailto) -->
+            <!-- Mensaje de Ã©xito (oculto por defecto; fallback mailto) -->
             <div class="contact-form-success" data-contact-success hidden>
               <strong>{t.form.successTitle}</strong>
               <p>{t.form.successText}</p>
@@ -158,8 +166,8 @@ const isExternal = !!formAction;
 </BaseLayout>
 
 <style>
-  /* Mensaje de éxito del formulario (nuevo en la migración; el original no
-     tenía backend). Sigue el sistema plano: hairline, sin radius. */
+  /* Mensaje de Ã©xito del formulario (nuevo en la migraciÃ³n; el original no
+     tenÃ­a backend). Sigue el sistema plano: hairline, sin radius. */
   .contact-form-success {
     margin-top: 1.5rem;
     padding: 1.5rem;
@@ -191,8 +199,8 @@ const isExternal = !!formAction;
 
 <script>
   // Fallback mailto: arma el correo con los campos del formulario, abre la
-  // aplicación de correo y muestra el mensaje de éxito + toast. Con
-  // PUBLIC_FORM_ACTION configurado (POST externo) no se intercepta el envío.
+  // aplicaciÃ³n de correo y muestra el mensaje de Ã©xito + toast. Con
+  // PUBLIC_FORM_ACTION configurado (POST externo) no se intercepta el envÃ­o.
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const success = document.querySelector<HTMLElement>('[data-contact-success]');
   if (form && success) {
@@ -208,8 +216,8 @@ const isExternal = !!formAction;
         const name = String(data.get('name') ?? '');
         const email = String(data.get('email') ?? '');
         const message = String(data.get('message') ?? '');
-        const subject = encodeURIComponent(`Contacto web — ${name}`);
-        const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+        const subject = encodeURIComponent(`Contacto web â€” ${name}`);
+        const body = encodeURIComponent(`${message}\n\nâ€” ${name} (${email})`);
         window.location.href = `${mailto}?subject=${subject}&body=${body}`;
         form.style.display = 'none';
         success.hidden = false;

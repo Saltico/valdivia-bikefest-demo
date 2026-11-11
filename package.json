@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "keystatic": "ASTRO_ENABLE_KEYSTATIC=true astro dev"
+    "keystatic": "astro dev"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",

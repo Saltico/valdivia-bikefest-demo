@@ -1,0 +1,42 @@
+{
+  "locale": "es",
+  "skipToContent": "Saltar al contenido principal",
+  "nav": [
+    {
+      "label": "Evento",
+      "href": "/evento"
+    },
+    {
+      "label": "Ruta y horario",
+      "href": "/ruta"
+    },
+    {
+      "label": "Resultados",
+      "href": "/resultados"
+    },
+    {
+      "label": "Valdivia",
+      "href": "/valdivia"
+    },
+    {
+      "label": "Contacto",
+      "href": "/contacto"
+    }
+  ],
+  "register": "Inscríbete",
+  "changeLanguage": "Cambiar idioma",
+  "openMenu": "Abrir menú",
+  "closeMenu": "Cerrar menú",
+  "mobileNavLabel": "Navegación móvil",
+  "mainNavLabel": "Navegación principal",
+  "homeLabel": "Valdivia Bike Fest, inicio",
+  "footerMeta": "© VBF / Valdivia, Chile",
+  "finalCta": {
+    "coordinate": "VALDIVIA / CHILE",
+    "kicker": "Tu próxima carrera",
+    "headingHtml": "Nos vemos<br>en la <em>ruta</em>",
+    "primaryLabel": "Inscríbete",
+    "secondaryLabel": "Contáctanos",
+    "secondaryHref": "/contacto"
+  }
+}

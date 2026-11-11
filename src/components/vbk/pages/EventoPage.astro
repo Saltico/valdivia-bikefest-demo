@@ -1,11 +1,11 @@
 ---
 // src/components/vbk/pages/EventoPage.astro
-// /evento: hero + franja de organizadores solapada, ¿qué es?, propósito,
-// carácter internacional, comunidad y CTA final. Fuente: evento.html.
+// /evento: hero + franja de organizadores solapada, Â¿quÃ© es?, propÃ³sito,
+// carÃ¡cter internacional, comunidad y CTA final. Fuente: evento.html.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
-import { eventoCopy } from '@/i18n/evento';
+import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
 
 export interface Props {
@@ -13,12 +13,20 @@ export interface Props {
 }
 
 const { locale = defaultLocale } = Astro.props;
-const t = eventoCopy[locale];
+
+// Contenido de /evento desde la colecciÃ³n Keystatic `pagesEvento`
+// (src/content/pages/evento/{locale}.json). El schema espeja el copy
+// original de la Fase 1, asÃ­ que el template no cambia.
+const eventoEntry = await getEntry('pagesEvento', locale);
+if (!eventoEntry) {
+  throw new Error(`[pagesEvento] No existe la entrada '${locale}' (src/content/pages/evento/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ El evento).`);
+}
+const t = eventoEntry.data;
 ---
 
 <BaseLayout
-  title={t.meta.title}
-  description={t.meta.description}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/evento"
   locale={locale}
 >
