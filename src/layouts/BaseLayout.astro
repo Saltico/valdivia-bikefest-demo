@@ -16,6 +16,8 @@ import SiteFooter from '@/components/vbk/SiteFooter.astro';
 import { organizationSchema, websiteSchema, getSiteUrl } from '@/lib/seo';
 import { initAnalytics } from '@/lib/analytics';
 import { withBase } from '@/utils/url';
+import fontDisplayBold from '@/assets/fonts/barlow-condensed-latin-700-normal.woff2?url';
+import fontBody from '@/assets/fonts/dm-sans-latin-wght-normal.woff2?url';
 import { getEntry } from 'astro:content';
 import {
   locales,
@@ -40,7 +42,7 @@ const {
   description,
   path = '/',
   locale = defaultLocale,
-  ogImage = getSiteUrl('/img/carrera.avif'),
+  ogImage = getSiteUrl('/img/og-default.jpg'),
   noindex = false,
   jsonLd,
 } = Astro.props;
@@ -115,13 +117,19 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
       hreflang={hreflang}
     />
 
-    <!-- Tipografía de marca: Barlow Condensed (display) + DM Sans (body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Tipografía de marca autoalojada (@font-face en vbk.css): preload solo de
+         las 2 fuentes críticas del above-the-fold (hero heading + body). -->
+    <link rel="preload" as="font" type="font/woff2" href={fontDisplayBold} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={fontBody} crossorigin />
+
+    <!-- Dimensiones/tipo de la imagen OG por defecto (SEO.astro solo emite og:image) -->
+    {ogImage === getSiteUrl('/img/og-default.jpg') && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpeg" />
+      </>
+    )}
 
     <slot name="head" />
   </head>

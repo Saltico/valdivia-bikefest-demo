@@ -50,6 +50,9 @@ export default defineConfig({
   adapter: isNode
     ? (await import('@astrojs/node')).default({ mode: 'standalone' })
     : undefined,
+  // CSS crítico inline: evita el <link rel=stylesheet> bloqueante (un solo CSS
+  // global de ~55 kB; 'auto' no lo inlinearía por el límite de 4 kB).
+  build: { inlineStylesheets: 'always' },
   trailingSlash: 'never',
   i18n: {
     defaultLocale: 'es',
