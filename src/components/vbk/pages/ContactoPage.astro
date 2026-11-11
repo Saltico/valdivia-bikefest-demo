@@ -7,6 +7,7 @@
 // (Formspree/Getform) cuando está configurado; fallback mailto a
 // PUBLIC_CONTACT_EMAIL con mensaje de éxito client-side + toast.
 
+import { withBase } from '@/utils/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { siteBrand, siteContact, siteSocial } from '@/data/site';
 import { getEntry } from 'astro:content';
@@ -44,7 +45,7 @@ const isExternal = !!formAction;
     <div class="contact-page">
       <section class="contact-hero">
         <div class="contact-hero-bg">
-          <img src="/img/salto.avif" alt={t.hero.bgAlt} width="4000" height="2667" loading="eager" fetchpriority="high" />
+          <img src={withBase('/img/salto.avif')} alt={t.hero.bgAlt} width="4000" height="2667" loading="eager" fetchpriority="high" />
         </div>
         <div class="contact-hero-overlay"></div>
         <div class="inner-intro">

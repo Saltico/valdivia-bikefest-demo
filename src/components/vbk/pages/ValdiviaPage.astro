@@ -7,6 +7,7 @@
 // duplicada) de los botones de destinos se emiten aquí correctamente.
 // Fuente: valdivia.html.
 
+import { withBase } from '@/utils/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
@@ -60,7 +61,7 @@ const navIcons: Record<string, string> = {
     <div class="valdivia-presentation">
       <section class="valdivia-hero">
         <img
-          src="/img/valdivia_hero.avif"
+          src={withBase('/img/valdivia_hero.avif')}
           alt=""
           width="4654"
           height="2618"
@@ -96,7 +97,7 @@ const navIcons: Record<string, string> = {
           aria-labelledby={`${destination.id}-title`}
         >
           <img
-            src={destination.image}
+            src={withBase(destination.image)}
             alt={destination.bgAlt}
             width={destinationDims[destination.image]?.width}
             height={destinationDims[destination.image]?.height}

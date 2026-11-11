@@ -15,6 +15,7 @@ import SiteHeader from '@/components/vbk/SiteHeader.astro';
 import SiteFooter from '@/components/vbk/SiteFooter.astro';
 import { organizationSchema, websiteSchema, getSiteUrl } from '@/lib/seo';
 import { initAnalytics } from '@/lib/analytics';
+import { withBase } from '@/utils/url';
 import { getEntry } from 'astro:content';
 import {
   locales,
@@ -76,7 +77,7 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 
     <!-- Consent Mode defaults (before analytics) -->
     <script is:inline>

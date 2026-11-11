@@ -2,6 +2,8 @@
 // Single source of truth for all shared site data (VBK).
 // Contact data reads from env vars (PUBLIC_CONTACT_*) — never hardcoded.
 
+import { withBase } from '@/utils/url';
+
 export const siteBrand = {
   name: 'Valdivia Bike Fest',
   tagline: 'La ruta está esperando',
@@ -56,5 +58,5 @@ export const sportsEventSchema: Record<string, unknown> = {
       addressCountry: 'CL',
     },
   },
-  url: siteBrand.siteUrl,
+  url: new URL(withBase('/'), siteBrand.siteUrl).toString(),
 };

@@ -4,6 +4,7 @@
 // 14:10 America/Santiago, secciones evento/ruta/schedule/resultados/valdivia
 // y CTA final. Fuente: index.html original + site-spec.json.
 
+import { withBase } from '@/utils/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
 import { REGISTRATION_URL, EVENT_TARGET_DATE, sportsEventSchema } from '@/data/site';
@@ -49,7 +50,7 @@ const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE
     <section class="hero" aria-labelledby="hero-title">
       <img
         class="hero-bg"
-        src="/img/carrera.avif"
+        src={withBase('/img/carrera.avif')}
         alt=""
         width="4000"
         height="2667"
@@ -246,16 +247,16 @@ const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE
         </a>
       </div>
       <div class="results-images animate-on-scroll">
-          <img src="/img/meta.avif" alt={t.resultados.imageAlt} width="4000" height="2667" loading="lazy" />
+          <img src={withBase('/img/meta.avif')} alt={t.resultados.imageAlt} width="4000" height="2667" loading="lazy" />
         </div>
     </section>
 
     <section class="valdivia-section" id="valdivia" aria-labelledby="valdivia-title">
       <div class="valdivia-carousel" aria-hidden="true" data-crossfade data-interval="5000">
-          <img src="/img/valdivia_1.avif" alt="" width="5272" height="2966" loading="lazy" class="carousel-img active" />
-          <img src="/img/valdivia_2.avif" alt="" width="5225" height="3483" loading="lazy" class="carousel-img" />
-          <img src="/img/valdivia_3.avif" alt="" width="7354" height="4910" loading="lazy" class="carousel-img" />
-          <img src="/img/valdivia_4.avif" alt="" width="5266" height="2962" loading="lazy" class="carousel-img" />
+          <img src={withBase('/img/valdivia_1.avif')} alt="" width="5272" height="2966" loading="lazy" class="carousel-img active" />
+          <img src={withBase('/img/valdivia_2.avif')} alt="" width="5225" height="3483" loading="lazy" class="carousel-img" />
+          <img src={withBase('/img/valdivia_3.avif')} alt="" width="7354" height="4910" loading="lazy" class="carousel-img" />
+          <img src={withBase('/img/valdivia_4.avif')} alt="" width="5266" height="2962" loading="lazy" class="carousel-img" />
         <span class="map-phrase" set:html={t.valdivia.overlayPhraseHtml} />
       </div>
       <div class="valdivia-copy">

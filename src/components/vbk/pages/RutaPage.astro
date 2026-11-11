@@ -6,6 +6,7 @@
 // confirmación oficial (warning del spec) — se conserva abajo como
 // comentario listo para activar.
 
+import { withBase } from '@/utils/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
 import { getEntry } from 'astro:content';
@@ -73,7 +74,7 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
     <div class="event-page">
       <section class="event-hero">
         <div class="event-hero-bg">
-          <img src="/img/ruta.avif" alt="" width="4000" height="2665" loading="eager" fetchpriority="high" />
+          <img src={withBase('/img/ruta.avif')} alt="" width="4000" height="2665" loading="eager" fetchpriority="high" />
         </div>
         <div class="event-hero-overlay"></div>
         <div class="inner-intro">
@@ -200,7 +201,7 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
               tabindex={image.duplicate ? -1 : undefined}
             >
               <img
-                src={image.src}
+                src={withBase(image.src)}
                 alt={image.alt}
                 width={image.width}
                 height={image.height}

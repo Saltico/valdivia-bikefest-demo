@@ -2,6 +2,7 @@
 // Schema.org builders + getSiteUrl() + localBusinessSchema
 
 import type { SiteConfig } from '@/types/seo';
+import { withBase } from '@/utils/url';
 
 const DEFAULT_CONFIG: SiteConfig = {
   siteUrl: import.meta.env.PUBLIC_SITE_URL ?? 'https://valdiviabikefest.cl',
@@ -18,7 +19,8 @@ export function getSiteConfig(): SiteConfig {
 
 export function getSiteUrl(path = ''): string {
   const config = getSiteConfig();
-  return new URL(path, config.siteUrl).toString();
+  // Incluye BASE_URL (idempotente): site + base + path
+  return new URL(withBase(path), config.siteUrl).toString();
 }
 
 export function organizationSchema(): Record<string, unknown> {
@@ -27,7 +29,7 @@ export function organizationSchema(): Record<string, unknown> {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: config.siteName,
-    url: config.siteUrl,
+    url: getSiteUrl('/'),
     logo: getSiteUrl(config.logoPath),
     // ContactPoint solo si hay canal real configurado (env vars)
     ...(config.email || config.phone
@@ -50,7 +52,7 @@ export function websiteSchema(searchUrl?: string): Record<string, unknown> {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: config.siteName,
-    url: config.siteUrl,
+    url: getSiteUrl('/'),
     ...(searchUrl && {
       potentialAction: {
         '@type': 'SearchAction',
@@ -79,7 +81,7 @@ export function localBusinessSchema(options?: {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name,
-    url: config.siteUrl,
+    url: getSiteUrl('/'),
     logo: getSiteUrl(config.logoPath),
     image: getSiteUrl('/og-default.jpg'),
     telephone: config.phone,

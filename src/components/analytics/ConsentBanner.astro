@@ -3,12 +3,14 @@
 // Cookie consent banner with Consent Mode v2 support
 // Stores preference in localStorage and updates dataLayer
 ---
+import { withBase } from '@/utils/url';
+---
 
 <div class="consent-banner" data-consent-banner hidden>
   <div class="consent-banner__inner">
     <p class="consent-banner__text">
       We use cookies to improve your experience. By continuing, you agree to our
-      <a href="/cookies">cookie policy</a>.
+      <a href={withBase('/cookies')}>cookie policy</a>.
     </p>
     <div class="consent-banner__actions">
       <button type="button" class="consent-banner__btn consent-banner__btn--secondary" data-consent-deny>

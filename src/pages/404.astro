@@ -3,6 +3,7 @@
 // 404 — estilo VBK (dark-only, flat, hairline). Locale por defecto (ES).
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { defaultLocale } from '@/i18n/config';
+import { withBase } from '@/utils/url';
 
 const title = 'Error 404 — Página no encontrada | Valdivia Bike Fest';
 const description =
@@ -17,7 +18,7 @@ const description =
       <p class="error-copy">
         La página que buscas no existe o fue movida. Vuelve a la línea de partida.
       </p>
-      <a class="button button-lime" href="/">Volver al inicio <span aria-hidden="true">&#x2197;&#xFE0E;</span></a>
+      <a class="button button-lime" href={withBase('/')}>Volver al inicio <span aria-hidden="true">&#x2197;&#xFE0E;</span></a>
     </section>
   </div>
 </BaseLayout>
