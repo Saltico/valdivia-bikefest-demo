@@ -2,22 +2,32 @@
 // src/components/analytics/ConsentBanner.astro
 // Cookie consent banner with Consent Mode v2 support
 // Stores preference in localStorage and updates dataLayer
----
+// Textos recibidos por props (colección siteCommon, es/en).
 import { withBase } from '@/utils/url';
+
+export interface Props {
+  message: string;
+  accept: string;
+  decline: string;
+  cookiesLinkLabel: string;
+  /** Ruta de la política de cookies (con prefijo de locale si aplica). */
+  cookiesHref?: string;
+}
+
+const { message, accept, decline, cookiesLinkLabel, cookiesHref = withBase('/cookies') } = Astro.props;
 ---
 
 <div class="consent-banner" data-consent-banner hidden>
   <div class="consent-banner__inner">
     <p class="consent-banner__text">
-      We use cookies to improve your experience. By continuing, you agree to our
-      <a href={withBase('/cookies')}>cookie policy</a>.
+      {message} <a href={cookiesHref}>{cookiesLinkLabel}</a>
     </p>
     <div class="consent-banner__actions">
       <button type="button" class="consent-banner__btn consent-banner__btn--secondary" data-consent-deny>
-        Decline
+        {decline}
       </button>
       <button type="button" class="consent-banner__btn consent-banner__btn--primary" data-consent-accept>
-        Accept
+        {accept}
       </button>
     </div>
   </div>

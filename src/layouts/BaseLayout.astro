@@ -122,7 +122,7 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
   </head>
   <body>
     <!-- Consent Banner (solo si hay analytics configurado) -->
-    {(gtmId || ga4Id) && <ConsentBanner />}
+    {(gtmId || ga4Id) && <ConsentBanner {...common.consent} />}
 
     <a href="#main-content" class="skip-link">{common.skipToContent}</a>
 

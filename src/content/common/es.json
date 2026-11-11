@@ -31,6 +31,12 @@
   "mainNavLabel": "Navegación principal",
   "homeLabel": "Valdivia Bike Fest, inicio",
   "footerMeta": "© VBF / Valdivia, Chile",
+  "consent": {
+    "message": "Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra",
+    "cookiesLinkLabel": "política de cookies.",
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
   "finalCta": {
     "coordinate": "VALDIVIA / CHILE",
     "kicker": "Tu próxima carrera",

@@ -38,7 +38,7 @@ En local, Keystatic usa storage `local`: edita directamente `src/content/**` y l
 1. Crear cuenta/team en <https://keystatic.cloud> y un proyecto nuevo.
 2. Vincular el repo GitHub `Saltico/valdivia-bikefest-demo` al proyecto.
 3. Invitar al cliente por email desde el team.
-4. Copiar el identificador `<team>/<project>` y ponerlo en `PUBLIC_KEYSTATIC_CLOUD_PROJECT` (en Hostinger, antes de construir).
+4. El identificador del proyecto es `valdivia-bike-fest/valdivia-bikefest` (default en `keystatic.config.ts`; se puede sobreescribir con `PUBLIC_KEYSTATIC_CLOUD_PROJECT` en Hostinger, antes de construir).
 
 ## Variables de entorno
 
@@ -49,11 +49,11 @@ Ver `.env.example` (comentado). Resumen:
 | `DEPLOY_TARGET` | build | `static` (default) o `node`. Ya fijado por los scripts. |
 | `PUBLIC_SITE_URL` | build | URL canónica. Producción: `https://valdiviabikefest.cl`. |
 | `PUBLIC_BASE_PATH` | build static | Subruta de GitHub Pages (`/valdivia-bikefest-demo`). Ignorada en `node`. |
-| `PUBLIC_KEYSTATIC_CLOUD_PROJECT` | build node | `<team>/<project>` de Keystatic Cloud (**TODO: pendiente**). Se incrusta en build time. |
+| `PUBLIC_KEYSTATIC_CLOUD_PROJECT` | build node | `<team>/<project>` de Keystatic Cloud (default: `valdivia-bike-fest/valdivia-bikefest`). Se incrusta en build time. |
 | `PUBLIC_KEYSTATIC_STORAGE` | build | Opcional: fuerza `local` o `cloud`. Por defecto `local` en dev y `cloud` en build. |
 | `ASTRO_ENABLE_KEYSTATIC` | dev | `true` habilita el admin local en `astro dev`. |
 | `PUBLIC_GTM_ID`, `PUBLIC_GA4_ID` | build | Analítica (vacío = omitida). |
-| `PUBLIC_CONTACT_EMAIL`, `PUBLIC_CONTACT_PHONE`, `PUBLIC_MAPS_EMBED_URL`, `PUBLIC_FORM_ACTION` | build | Contacto y formulario. |
+| `PUBLIC_CONTACT_EMAIL`, `PUBLIC_CONTACT_PHONE`, `PUBLIC_CONTACT_ADDRESS`, `PUBLIC_MAPS_EMBED_URL`, `PUBLIC_SOCIAL_INSTAGRAM`, `PUBLIC_SOCIAL_INSTAGRAM_HANDLE`, `PUBLIC_FORM_ACTION` | build | Contacto y formulario. |
 | `HOST`, `PORT` | runtime node | Opcionales; el servidor standalone los lee al iniciar. |
 
 Las variables `PUBLIC_*` se incrustan al construir: cambiarlas exige un nuevo build. No hay secretos en este proyecto (Keystatic Cloud autentica en el navegador).

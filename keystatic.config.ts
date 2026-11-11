@@ -32,10 +32,10 @@ const storageKind: 'local' | 'cloud' =
   (import.meta.env.PUBLIC_KEYSTATIC_STORAGE as 'local' | 'cloud' | undefined) ||
   (import.meta.env.DEV ? 'local' : 'cloud');
 
-// TODO: definir PUBLIC_KEYSTATIC_CLOUD_PROJECT con el "<team>/<project>" real de
-// keystatic.cloud (no es un secreto). Mientras tanto se usa un placeholder.
+// Identificador "<team>/<project>" de Keystatic Cloud (no es un secreto).
+// Override con PUBLIC_KEYSTATIC_CLOUD_PROJECT.
 const cloudProject: string =
-  import.meta.env.PUBLIC_KEYSTATIC_CLOUD_PROJECT || 'TODO-team/TODO-project';
+  import.meta.env.PUBLIC_KEYSTATIC_CLOUD_PROJECT || 'valdivia-bike-fest/valdivia-bikefest';
 
 export default config({
   storage: storageKind === 'cloud' ? { kind: 'cloud' } : { kind: 'local' },

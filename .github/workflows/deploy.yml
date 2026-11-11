@@ -39,6 +39,12 @@ jobs:
           NODE_ENV: production
           PUBLIC_SITE_URL: https://saltico.github.io
           PUBLIC_BASE_PATH: /valdivia-bikefest-demo
+          # Datos públicos (ya visibles en el sitio); no son secretos.
+          PUBLIC_CONTACT_EMAIL: valdiviabikefest@gmail.com
+          PUBLIC_CONTACT_ADDRESS: Complejo Deportivo ASENAV, Alonso Doce 998, Valdivia, Región de Los Ríos, Chile
+          PUBLIC_MAPS_EMBED_URL: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3128.5!2d-73.238!3d-39.814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAlonso+Doce+998%2C+Valdivia!5e0!3m2!1ses!2scl!4v1700000000000"
+          PUBLIC_SOCIAL_INSTAGRAM: https://instagram.com/valdiviabikefest_
+          PUBLIC_SOCIAL_INSTAGRAM_HANDLE: "@valdiviabikefest"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

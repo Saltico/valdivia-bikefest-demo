@@ -39,6 +39,15 @@ export const keystaticSiteCommonConfig = {
     mainNavLabel: fields.text({ label: 'Etiqueta aria — nav principal', validation: { isRequired: true } }),
     homeLabel: fields.text({ label: 'Etiqueta aria — logo (inicio)', validation: { isRequired: true } }),
     footerMeta: fields.text({ label: 'Meta del pie', validation: { isRequired: true } }),
+    consent: fields.object(
+      {
+        message: fields.text({ label: 'Mensaje', multiline: true, validation: { isRequired: true } }),
+        cookiesLinkLabel: fields.text({ label: 'Enlace a política de cookies — etiqueta', validation: { isRequired: true } }),
+        accept: fields.text({ label: 'Botón aceptar', validation: { isRequired: true } }),
+        decline: fields.text({ label: 'Botón rechazar', validation: { isRequired: true } }),
+      },
+      { label: 'Banner de cookies' },
+    ),
     finalCta: fields.object(
       {
         coordinate: fields.text({ label: 'Coordenada', validation: { isRequired: true } }),

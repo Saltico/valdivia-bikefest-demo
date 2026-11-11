@@ -22,14 +22,14 @@ export const siteLanguage = import.meta.env.PUBLIC_SITE_LANG ?? 'es';
 export const siteContact = {
   email: import.meta.env.PUBLIC_CONTACT_EMAIL ?? '',
   phone: import.meta.env.PUBLIC_CONTACT_PHONE ?? '',
-  address: 'Complejo Deportivo ASENAV, Alonso Doce 998, Valdivia, Región de Los Ríos, Chile',
+  address: import.meta.env.PUBLIC_CONTACT_ADDRESS ?? '',
   mapsEmbedUrl: import.meta.env.PUBLIC_MAPS_EMBED_URL ?? '',
 };
 
 // ─── Social ──────────────────────────────────────────────────────────
 export const siteSocial = {
-  instagram: 'https://instagram.com/valdiviabikefest_',
-  instagramHandle: '@valdiviabikefest',
+  instagram: import.meta.env.PUBLIC_SOCIAL_INSTAGRAM ?? '',
+  instagramHandle: import.meta.env.PUBLIC_SOCIAL_INSTAGRAM_HANDLE ?? '',
 };
 
 // ─── Registration (Eventrid — URL oficial confirmada por el cliente) ─

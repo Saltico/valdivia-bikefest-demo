@@ -25,6 +25,12 @@ export const siteCommonSchema = z.object({
   mainNavLabel: z.string().min(1),
   homeLabel: z.string().min(1),
   footerMeta: z.string().min(1),
+  consent: z.object({
+    message: z.string().min(1),
+    cookiesLinkLabel: z.string().min(1),
+    accept: z.string().min(1),
+    decline: z.string().min(1),
+  }),
   finalCta: z.object({
     coordinate: z.string().min(1),
     kicker: z.string().min(1),
