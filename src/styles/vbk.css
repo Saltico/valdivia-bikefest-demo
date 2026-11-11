@@ -1103,9 +1103,6 @@ img.section-bg {
   line-height: 1.65;
 }
 
-.results-copy .button-dark {
-  margin-top: 1rem;
-}
 
 /* ── Home: teaser Valdivia (carrusel) ──────────────────────────────── */
 .valdivia-section {
@@ -3750,6 +3747,94 @@ img.section-bg {
   }
 
   .contact-gallery-track {
+    animation: none;
+  }
+}
+
+/* ── Paridad visual con el sitio original (styles.css) ───────────────
+   Reglas que se perdieron en la migración y causaban diferencias de diseño. */
+
+/* <picture> usa display:contents; su <source> (sin display:none en el UA
+   stylesheet) se volvía un ítem de grid vacío y desplazaba el contenido:
+   hero más abajo y "Todo en su momento" con columnas cruzadas. */
+picture > source {
+  display: none;
+}
+
+/* CTA final: degradado turquesa animado del original (no el verde plano). */
+.final-cta {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 193, 186, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 151, 142, 0.6) 0%, transparent 50%),
+    linear-gradient(135deg, #007a73 0%, #00978e 15%, #00c0b7 30%, #01b0a7 45%, #00c1ba 60%, #00d4c8 75%, #01b0a7 90%, #006b65 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+.final-cta em {
+  color: var(--ink);
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.route-detail-top {
+  margin: 0;
+}
+
+.route-detail p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.results-board-foot {
+  border-bottom: 0;
+}
+
+.event-schedule-section .section-kicker,
+.results-hero .section-kicker,
+.results-table tbody tr[data-podium='1'] td:first-child {
+  color: var(--turquoise);
+}
+
+.event-international-text .arrow-link {
+  margin-top: 0;
+}
+
+@media (min-width: 981px) {
+  .contact-hero {
+    height: 500px;
+  }
+}
+
+@media (max-width: 760px) {
+  .destination-section {
+    min-height: 100svh;
+  }
+
+  .final-cta .final-cta-inner {
+    display: block;
+    max-width: 22rem;
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .final-cta .section-kicker {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .final-cta {
     animation: none;
   }
 }
