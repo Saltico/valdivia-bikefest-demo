@@ -79,16 +79,18 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 
-    <!-- Consent Mode defaults (before analytics) -->
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('consent', 'default', {
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        wait_for_update: 500,
-      });
-    </script>
+    <!-- Consent Mode defaults (before analytics); solo si hay GTM o GA4 configurados -->
+    {(gtmId || ga4Id) && (
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500,
+        });
+      </script>
+    )}
 
     <!-- Google Tag Manager (conditional) -->
     {gtmId && <GTM gtmId={gtmId} />}
