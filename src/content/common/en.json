@@ -32,10 +32,14 @@
   "homeLabel": "Valdivia Bike Fest, home",
   "footerMeta": "© VBF / Valdivia, Chile",
   "consent": {
-    "message": "We use cookies to improve your experience. By continuing, you agree to our",
-    "cookiesLinkLabel": "cookie policy.",
+    "title": "Analytics cookies",
+    "message": "We store analytics cookies (Google Analytics, through Google Tag Manager) to measure visits in aggregate and improve the site. We do not use them for advertising. If you decline, your browsing is not affected.",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "statusAccepted": "Current choice: accepted.",
+    "statusDeclined": "Current choice: declined.",
+    "closeLabel": "Close",
+    "preferencesLabel": "Cookie preferences"
   },
   "finalCta": {
     "coordinate": "VALDIVIA / CHILE",

@@ -26,10 +26,14 @@ export const siteCommonSchema = z.object({
   homeLabel: z.string().min(1),
   footerMeta: z.string().min(1),
   consent: z.object({
+    title: z.string().min(1),
     message: z.string().min(1),
-    cookiesLinkLabel: z.string().min(1),
     accept: z.string().min(1),
     decline: z.string().min(1),
+    statusAccepted: z.string().min(1),
+    statusDeclined: z.string().min(1),
+    closeLabel: z.string().min(1),
+    preferencesLabel: z.string().min(1),
   }),
   finalCta: z.object({
     coordinate: z.string().min(1),

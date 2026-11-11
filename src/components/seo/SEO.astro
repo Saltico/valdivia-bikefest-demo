@@ -5,6 +5,7 @@
 // NO modificar la lógica de este componente sin actualizar el template-contract.md del harness.
 
 import JsonLd from './JsonLd.astro';
+import { getDefaultLocaleUrl } from '@/lib/seo';
 
 export interface Props {
   title: string;
@@ -36,6 +37,8 @@ const {
 
 const finalRobots = noindex ? 'noindex, follow' : robots;
 const ogImageUrl = ogImage ?? new URL('/og-default.jpg', canonical).toString();
+// x-default SIEMPRE apunta a la versión en el idioma por defecto (/en/x -> /x).
+const xDefault = getDefaultLocaleUrl(canonical, hreflang);
 const allSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
@@ -62,7 +65,7 @@ const allSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     ))
 }
 
-<link rel="alternate" hreflang="x-default" href={canonical} />
+<link rel="alternate" hreflang="x-default" href={xDefault} />
 
 {allSchemas.map((schema) => (
   <JsonLd data={schema} />

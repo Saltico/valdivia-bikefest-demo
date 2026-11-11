@@ -52,7 +52,7 @@ Ver `.env.example` (comentado). Resumen:
 | `PUBLIC_KEYSTATIC_CLOUD_PROJECT` | build node | `<team>/<project>` de Keystatic Cloud (default: `valdivia-bike-fest/valdivia-bikefest`). Se incrusta en build time. |
 | `PUBLIC_KEYSTATIC_STORAGE` | build | Opcional: fuerza `local` o `cloud`. Por defecto `local` en dev y `cloud` en build. |
 | `ASTRO_ENABLE_KEYSTATIC` | dev | `true` habilita el admin local en `astro dev`. |
-| `PUBLIC_GTM_ID`, `PUBLIC_GA4_ID` | build | Analítica (vacío = omitida). |
+| `PUBLIC_GTM_ID`, `PUBLIC_GA4_ID` | build | Analítica (vacío = omitida). GTM tiene prioridad: GA4 directo solo si hay `PUBLIC_GA4_ID` y NO hay `PUBLIC_GTM_ID`. Con cualquiera se activa el banner de consentimiento (Consent Mode v2: 4 señales `denied` por defecto; aceptar concede solo `analytics_storage`) y el botón «Preferencias de cookies» del footer (`[data-consent-open]`). Textos editables en Keystatic → Textos compartidos → Banner de cookies. |
 | `PUBLIC_CONTACT_EMAIL`, `PUBLIC_CONTACT_PHONE`, `PUBLIC_CONTACT_ADDRESS`, `PUBLIC_MAPS_EMBED_URL`, `PUBLIC_SOCIAL_INSTAGRAM`, `PUBLIC_SOCIAL_INSTAGRAM_HANDLE`, `PUBLIC_FORM_ACTION` | build | Contacto y formulario. |
 | `HOST`, `PORT` | runtime node | Opcionales; el servidor standalone los lee al iniciar. |
 

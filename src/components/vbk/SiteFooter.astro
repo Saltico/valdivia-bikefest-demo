@@ -10,9 +10,11 @@ import { defaultLocale, localePath, type Locale } from '@/i18n/config';
 
 export interface Props {
   locale?: Locale;
+  /** Muestra el botón de preferencias de cookies (solo si hay analytics). */
+  showConsentPreferences?: boolean;
 }
 
-const { locale = defaultLocale } = Astro.props;
+const { locale = defaultLocale, showConsentPreferences = false } = Astro.props;
 
 // Textos compartidos desde Keystatic (colección siteCommon)
 const commonEntry = await getEntry('siteCommon', locale);
@@ -38,5 +40,29 @@ const links = common.nav.map((item) => ({ ...item, href: localePath(locale, item
   </div>
   <div class="footer-meta">
     <span>{common.footerMeta}</span>
+    {showConsentPreferences && (
+      <button type="button" class="footer-consent" data-consent-open>
+        {common.consent.preferencesLabel}
+      </button>
+    )}
   </div>
 </footer>
+
+<style>
+  .footer-consent {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: var(--paper);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+  .footer-consent:hover { color: var(--turquoise); }
+  .footer-consent:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+</style>

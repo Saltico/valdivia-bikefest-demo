@@ -41,10 +41,14 @@ export const keystaticSiteCommonConfig = {
     footerMeta: fields.text({ label: 'Meta del pie', validation: { isRequired: true } }),
     consent: fields.object(
       {
-        message: fields.text({ label: 'Mensaje', multiline: true, validation: { isRequired: true } }),
-        cookiesLinkLabel: fields.text({ label: 'Enlace a política de cookies — etiqueta', validation: { isRequired: true } }),
+        title: fields.text({ label: 'Título', validation: { isRequired: true } }),
+        message: fields.text({ label: 'Mensaje (qué se guarda y para qué)', multiline: true, validation: { isRequired: true } }),
         accept: fields.text({ label: 'Botón aceptar', validation: { isRequired: true } }),
         decline: fields.text({ label: 'Botón rechazar', validation: { isRequired: true } }),
+        statusAccepted: fields.text({ label: 'Estado actual — aceptadas', validation: { isRequired: true } }),
+        statusDeclined: fields.text({ label: 'Estado actual — rechazadas', validation: { isRequired: true } }),
+        closeLabel: fields.text({ label: 'Botón cerrar (al reabrir)', validation: { isRequired: true } }),
+        preferencesLabel: fields.text({ label: 'Botón del pie — Preferencias de cookies', validation: { isRequired: true } }),
       },
       { label: 'Banner de cookies' },
     ),

@@ -1,6 +1,7 @@
 ---
 // src/components/analytics/GA4.astro
 // Google Analytics 4 snippet — solo se renderiza si PUBLIC_GA4_ID está configurado
+// Solo se usa si NO hay PUBLIC_GTM_ID (GTM tiene prioridad; decide BaseLayout).
 // Respeta Consent Mode: el snippet se carga pero gtag() espera consentimiento.
 
 export interface Props {

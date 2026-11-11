@@ -23,6 +23,17 @@ export function getSiteUrl(path = ''): string {
   return new URL(withBase(path), config.siteUrl).toString();
 }
 
+/**
+ * URL de la versión en el idioma por defecto (x-default). Usa hreflang[defaultLocale]
+ * (ya incluye site + base); si no existe, quita el prefijo de locale del canonical.
+ * Default sin prefijo (prefixDefaultLocale = false).
+ */
+export function getDefaultLocaleUrl(canonical: string, hreflang?: Record<string, string>): string {
+  const defaultLocale = getSiteConfig().defaultLocale;
+  if (hreflang?.[defaultLocale]) return hreflang[defaultLocale];
+  return canonical;
+}
+
 export function organizationSchema(): Record<string, unknown> {
   const config = getSiteConfig();
   return {

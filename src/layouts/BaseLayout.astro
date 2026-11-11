@@ -64,6 +64,9 @@ for (const l of locales) {
 // Analytics IDs from env vars
 const gtmId = import.meta.env.PUBLIC_GTM_ID;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+// GTM tiene prioridad: GA4 directo (gtag.js) solo si hay GA4 y NO hay GTM.
+const hasAnalytics = Boolean(gtmId || ga4Id);
+const useDirectGa4 = Boolean(ga4Id) && !gtmId;
 
 // Base JSON-LD schemas injected on every page
 const baseSchemas = [organizationSchema(), websiteSchema()];
@@ -80,12 +83,14 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 
     <!-- Consent Mode defaults (before analytics); solo si hay GTM o GA4 configurados -->
-    {(gtmId || ga4Id) && (
+    {hasAnalytics && (
       <script is:inline>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('consent', 'default', {
           ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
           analytics_storage: 'denied',
           wait_for_update: 500,
         });
@@ -95,8 +100,8 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <!-- Google Tag Manager (conditional) -->
     {gtmId && <GTM gtmId={gtmId} />}
 
-    <!-- Google Analytics 4 (conditional) -->
-    {ga4Id && <GA4 ga4Id={ga4Id} />}
+    <!-- GA4 directo (solo sin GTM; GTM tiene prioridad) -->
+    {useDirectGa4 && <GA4 ga4Id={ga4Id} />}
 
     <!-- SEO component (INMUTABLE — do not modify) -->
     <SEO
@@ -121,8 +126,8 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <slot name="head" />
   </head>
   <body>
-    <!-- Consent Banner (solo si hay analytics configurado) -->
-    {(gtmId || ga4Id) && <ConsentBanner {...common.consent} />}
+    <!-- Consent Banner (solo si hay GTM o GA4; el consent default vive en el <head>) -->
+    {hasAnalytics && <ConsentBanner {...common.consent} />}
 
     <a href="#main-content" class="skip-link">{common.skipToContent}</a>
 
@@ -132,7 +137,7 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
       <slot />
     </main>
 
-    <SiteFooter locale={locale} />
+    <SiteFooter locale={locale} showConsentPreferences={hasAnalytics} />
 
     <div class="toast" role="status" aria-live="polite" hidden></div>
 

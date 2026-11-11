@@ -32,10 +32,14 @@
   "homeLabel": "Valdivia Bike Fest, inicio",
   "footerMeta": "© VBF / Valdivia, Chile",
   "consent": {
-    "message": "Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra",
-    "cookiesLinkLabel": "política de cookies.",
+    "title": "Cookies de analítica",
+    "message": "Guardamos cookies de analítica (Google Analytics, a través de Google Tag Manager) para medir las visitas de forma agregada y mejorar el sitio. No las usamos para publicidad. Si las rechazas, la navegación no se ve afectada.",
     "accept": "Aceptar",
-    "decline": "Rechazar"
+    "decline": "Rechazar",
+    "statusAccepted": "Elección actual: aceptadas.",
+    "statusDeclined": "Elección actual: rechazadas.",
+    "closeLabel": "Cerrar",
+    "preferencesLabel": "Preferencias de cookies"
   },
   "finalCta": {
     "coordinate": "VALDIVIA / CHILE",
