@@ -6,6 +6,9 @@
 // confirmación oficial (warning del spec) — se conserva abajo como
 // comentario listo para activar.
 
+import Img from '@/components/vbk/Img.astro';
+import { getImage } from 'astro:assets';
+import { resolveImage } from '@/utils/images';
 import { withBase } from '@/utils/url';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
@@ -39,27 +42,24 @@ const icons: Record<string, string> = {
   uci: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
 };
 
-// Dimensiones intrínsecas (evita CLS; ver public/img): checklist SEO "width/height".
-const imageDims: Record<string, { width: number; height: number }> = {
-  '/img/ruta.avif': { width: 4000, height: 2665 },
-  '/img/carrera.avif': { width: 4000, height: 2667 },
-  '/img/salto.avif': { width: 4000, height: 2667 },
-  '/img/terreno.avif': { width: 4000, height: 2667 },
-  '/img/bajada.avif': { width: 3000, height: 2000 },
-  '/img/pista.avif': { width: 4000, height: 2667 },
-  '/img/resultados_hombre.avif': { width: 4000, height: 2667 },
-  '/img/resultados_mujer.avif': { width: 4000, height: 2667 },
-  '/img/valdivia_1.avif': { width: 5272, height: 2966 },
-  '/img/valdivia_2.avif': { width: 5225, height: 3483 },
-  '/img/valdivia_3.avif': { width: 7354, height: 4910 },
-  '/img/valdivia_4.avif': { width: 5266, height: 2962 },
-};
+// Versión grande (webp 1600 px) para el lightbox; la miniatura del carrusel
+// solo carga ~456 px. Si la ruta no está en src/assets/img, cae a la URL original.
+const fullByPath = new Map<string, string>();
+for (const image of t.galeria) {
+  const meta = resolveImage(image.src);
+  fullByPath.set(
+    image.src,
+    meta
+      ? (await getImage({ src: meta, width: Math.min(1600, meta.width), format: 'webp', quality: 70 })).src
+      : withBase(image.src),
+  );
+}
 
 // duplicado para el loop infinito del track; la 2ª mitad queda oculta al
 // árbol de accesibilidad y fuera del tab-order (elementos repetidos).
 const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
   ...image,
-  ...imageDims[image.src],
+  full: fullByPath.get(image.src),
   duplicate: index >= t.galeria.length,
 }));
 ---
@@ -74,7 +74,7 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
     <div class="event-page">
       <section class="event-hero">
         <div class="event-hero-bg">
-          <img src={withBase('/img/ruta.avif')} alt="" width="4000" height="2665" loading="eager" fetchpriority="high" />
+          <Img src="/img/ruta.avif" alt="" priority widths={[480, 768, 1024, 1440, 1920]} />
         </div>
         <div class="event-hero-overlay"></div>
         <div class="inner-intro">
@@ -130,6 +130,7 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
       </section>
 
       <section class="event-schedule-section">
+        <Img class="section-bg" src="/img/pista.avif" alt="" aria-hidden="true" />
         <p class="section-kicker animate-on-scroll">{t.programa.kicker}</p>
         <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.programa.headingHtml} />
         <div class="event-schedule-list">
@@ -197,15 +198,16 @@ const gallery = [...t.galeria, ...t.galeria].map((image, index) => ({
               type="button"
               class="contact-gallery-item"
               data-gallery-trigger
+              data-full={image.full}
               aria-hidden={image.duplicate ? 'true' : undefined}
               tabindex={image.duplicate ? -1 : undefined}
             >
-              <img
-                src={withBase(image.src)}
+              <Img
+                src={image.src}
                 alt={image.alt}
-                width={image.width}
-                height={image.height}
-                loading="lazy"
+                widths={[336, 456, 672, 912]}
+                sizes="max(336px, min(32.5vw, 456px))"
+                quality={65}
               />
             </button>
           ))}

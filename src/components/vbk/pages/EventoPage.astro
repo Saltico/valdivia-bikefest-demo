@@ -3,7 +3,7 @@
 // /evento: hero + franja de organizadores solapada, ¿qué es?, propósito,
 // carácter internacional, comunidad y CTA final. Fuente: evento.html.
 
-import { withBase } from '@/utils/url';
+import Img from '@/components/vbk/Img.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import FinalCta from '@/components/vbk/FinalCta.astro';
 import { getEntry } from 'astro:content';
@@ -36,7 +36,7 @@ const t = eventoEntry.data;
       <div class="hero-organizers-wrap">
         <section class="event-hero">
           <div class="event-hero-bg">
-            <img src={withBase('/img/chile.avif')} alt={t.hero.bgAlt} width="3000" height="2000" loading="eager" fetchpriority="high" />
+            <Img src="/img/chile.avif" alt={t.hero.bgAlt} priority widths={[480, 768, 1024, 1440, 1920]} />
           </div>
           <div class="event-hero-overlay"></div>
           <div class="inner-intro">
@@ -113,6 +113,7 @@ const t = eventoEntry.data;
       </section>
 
       <section class="event-community-section">
+        <Img class="section-bg" src="/img/comunidad.avif" alt="" aria-hidden="true" />
         <p class="section-kicker animate-on-scroll">{t.comunidad.kicker}</p>
         <h2 class="animate-on-scroll" style="transition-delay:.1s" set:html={t.comunidad.headingHtml} />
         <p class="animate-on-scroll" style="transition-delay:.25s">{t.comunidad.copy}</p>

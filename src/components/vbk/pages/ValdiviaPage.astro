@@ -7,7 +7,7 @@
 // duplicada) de los botones de destinos se emiten aquí correctamente.
 // Fuente: valdivia.html.
 
-import { withBase } from '@/utils/url';
+import Img from '@/components/vbk/Img.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
@@ -26,15 +26,6 @@ if (!valdiviaEntry) {
   throw new Error(`[pagesValdivia] No existe la entrada '${locale}' (src/content/pages/valdivia/${locale}.json). Edítala en el CMS (Keystatic → Valdivia).`);
 }
 const t = valdiviaEntry.data;
-
-// Dimensiones intrínsecas de las fotos de destino (evita CLS; checklist SEO).
-const destinationDims: Record<string, { width: number; height: number }> = {
-  '/img/valdivia_parque_nacional_alerce_costero.avif': { width: 7360, height: 4912 },
-  '/img/valdivia_volcan_mocho_choshuenco.avif': { width: 3648, height: 5472 },
-  '/img/valdivia_humedal_punucapa.avif': { width: 8256, height: 5504 },
-  '/img/valdivia_vida_nocturna.avif': { width: 8256, height: 5504 },
-  '/img/valdivia_fuerte_niebla.avif': { width: 4938, height: 3292 },
-};
 
 // Íconos SVG lineales del original (stroke currentColor 2)
 const navIcons: Record<string, string> = {
@@ -60,14 +51,12 @@ const navIcons: Record<string, string> = {
   <div class="site-shell">
     <div class="valdivia-presentation">
       <section class="valdivia-hero">
-        <img
-          src={withBase('/img/valdivia_hero.avif')}
+        <Img
+          src="/img/valdivia_hero.avif"
           alt=""
-          width="4654"
-          height="2618"
           class="valdivia-hero-bg"
-          loading="eager"
-          fetchpriority="high"
+          priority
+          widths={[480, 768, 1024, 1440, 1920]}
         />
         <div class="valdivia-hero-content">
           <p class="section-kicker">{t.hero.kicker}</p>
@@ -96,15 +85,7 @@ const navIcons: Record<string, string> = {
           class="destination-section"
           aria-labelledby={`${destination.id}-title`}
         >
-          <img
-            src={withBase(destination.image)}
-            alt={destination.bgAlt}
-            width={destinationDims[destination.image]?.width}
-            height={destinationDims[destination.image]?.height}
-            class="destination-bg"
-            loading={index === 0 ? 'eager' : 'lazy'}
-            fetchpriority={index === 0 ? 'high' : undefined}
-          />
+          <Img src={destination.image} alt={destination.bgAlt} class="destination-bg" />
           <div class="destination-overlay"></div>
           <div class="destination-content">
             <p class="destination-kicker animate-on-scroll">{destination.kicker}</p>

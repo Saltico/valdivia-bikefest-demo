@@ -432,7 +432,7 @@ function setupGalleryLightbox(): void {
     const img = trigger.querySelector('img');
     if (!img) return;
     lastTrigger = trigger;
-    lb.img.src = img.currentSrc || img.src;
+    lb.img.src = trigger.dataset.full || img.currentSrc || img.src;
     lb.img.alt = img.alt;
     lb.caption.textContent = img.alt;
     lb.overlay.hidden = false;

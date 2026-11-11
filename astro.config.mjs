@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import fs from 'node:fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { loadEnv } from 'vite';
@@ -30,6 +31,8 @@ if (!VALID_TARGETS.includes(target)) {
   throw new Error(`DEPLOY_TARGET inválido: "${target}". Usa "static" o "node".`);
 }
 const isNode = target === 'node';
+// Locales con prefijo (el default 'es' no lo tiene): ver integración abajo.
+const i18nLocales = ['en'];
 const isDev = process.argv.includes('dev');
 
 // Keystatic: siempre en el target node; en dev solo si se pide; nunca en static.
@@ -50,9 +53,18 @@ export default defineConfig({
   adapter: isNode
     ? (await import('@astrojs/node')).default({ mode: 'standalone' })
     : undefined,
-  // CSS crítico inline: evita el <link rel=stylesheet> bloqueante (un solo CSS
-  // global de ~55 kB; 'auto' no lo inlinearía por el límite de 4 kB).
-  build: { inlineStylesheets: 'always' },
+  // CSS: 'auto' deja una única hoja externa con hash (/_astro/*.css, 1 año de
+  // caché inmutable) en vez de repetir ~57 kB inline en cada HTML.
+  // format: con trailingSlash 'never' los canonicals son /ruta (sin barra).
+  //  - static (GitHub Pages): 'file' emite ruta.html; Pages lo sirve en /ruta con
+  //    200 directo (con 'directory' respondía 301 a /ruta/).
+  //  - node: el handler estático de @astrojs/node NO resuelve ruta.html (500
+  //    FailedToFindPageMapSSR); 'directory' (ruta/index.html) sí y, con
+  //    trailingSlash 'never', sirve /ruta con 200 y redirige /ruta/ → /ruta.
+  build: { inlineStylesheets: 'auto', format: isNode ? 'directory' : 'file' },
+  // Prefetch entre páginas: al pasar el cursor / tocar el enlace (hover) se
+  // precarga el HTML destino; respeta base y Save-Data.
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   trailingSlash: 'never',
   i18n: {
     defaultLocale: 'es',
@@ -61,6 +73,28 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
+    // format 'file' + carpeta en/: genera en.html y en/ruta.html, pero GitHub
+    // Pages podría resolver /en como directorio (301 → /en/ → 404). Se copia
+    // en.html → en/index.html para que /en y /en/ sirvan siempre contenido.
+    ...(isNode
+      ? []
+      : [
+          {
+            name: 'vbk-locale-index-fallback',
+            hooks: {
+              'astro:build:done': async ({ dir }) => {
+                const root = fileURLToPath(dir);
+                for (const locale of i18nLocales) {
+                  const file = path.join(root, `${locale}.html`);
+                  if (fs.existsSync(file)) {
+                    fs.mkdirSync(path.join(root, locale), { recursive: true });
+                    fs.copyFileSync(file, path.join(root, locale, 'index.html'));
+                  }
+                }
+              },
+            },
+          },
+        ]),
     sitemap({
       // trailingSlash 'never': la raíz sale como '<base>/' y no coincide con el
       // canonical ('<base>'). Se normaliza para que sitemap y canonicals coincidan.

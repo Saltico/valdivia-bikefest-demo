@@ -166,7 +166,7 @@ export const keystaticPagesRutaConfig = {
         {
           src: fields.text({
             label: 'Ruta de imagen',
-            description: 'Ruta pública, p. ej. /img/carrera.avif (los archivos viven en public/img).',
+            description: 'Ruta de imagen, p. ej. /img/carrera.avif (el archivo vive en src/assets/img y se optimiza en build: avif/webp responsive).',
             validation: { isRequired: true },
           }),
           alt: fields.text({ label: 'Alt', validation: { isRequired: true } }),

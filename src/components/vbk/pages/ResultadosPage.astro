@@ -6,7 +6,7 @@
 // server-side desde la colección pagesResultados (porte SSG del
 // renderResultsTable original). Fuente: resultados.html + script.js.
 
-import { withBase } from '@/utils/url';
+import Img from '@/components/vbk/Img.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getEntry } from 'astro:content';
 import { defaultLocale, type Locale } from '@/i18n/config';
@@ -49,8 +49,8 @@ const panels = [
     <div class="results-page">
       <section class="results-hero">
         <div class="results-hero-bg" data-crossfade data-interval="8000" aria-hidden="true">
-          <img class="carousel-img active" src={withBase('/img/resultados_mujer.avif')} alt="" width="4000" height="2667" loading="eager" fetchpriority="high" />
-          <img class="carousel-img" src={withBase('/img/resultados_hombre.avif')} alt="" width="4000" height="2667" loading="eager" />
+          <Img class="carousel-img active" src="/img/resultados_mujer.avif" alt="" priority widths={[480, 768, 1024, 1440, 1920]} />
+          <Img class="carousel-img" src="/img/resultados_hombre.avif" alt="" widths={[480, 768, 1024, 1440, 1920]} />
         </div>
         <div class="results-hero-overlay"></div>
         <div class="inner-intro">

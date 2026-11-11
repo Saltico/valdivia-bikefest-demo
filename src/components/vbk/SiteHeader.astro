@@ -5,7 +5,8 @@
 // la misma página en el otro locale), CTA Inscríbete y menú móvil con
 // focus trap. Mobile: CTA de inscripción a ancho completo.
 
-import { withBase } from '@/utils/url';
+import { Image } from 'astro:assets';
+import logo from '@/assets/logo.png';
 import { siteBrand, REGISTRATION_URL } from '@/data/site';
 import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, alternateLocalePath, type Locale } from '@/i18n/config';
@@ -41,12 +42,15 @@ const altLabel = altLocale.toUpperCase();
 
 <header class="site-header">
   <a class="wordmark" href={localePath(locale, '/')} aria-label={common.homeLabel}>
-    <img
+    <Image
       class="wordmark-logo"
-      src={withBase(siteBrand.logoUrl)}
+      src={logo}
       alt={siteBrand.name}
-      width={siteBrand.logoWidth}
-      height={siteBrand.logoHeight}
+      width={120}
+      format="webp"
+      quality={80}
+      loading="eager"
+      decoding="async"
     />
   </a>
 

@@ -75,7 +75,7 @@ export const keystaticPagesValdiviaConfig = {
           bgAlt: fields.text({ label: 'Alt de la foto de fondo', validation: { isRequired: true } }),
           image: fields.text({
             label: 'Ruta de imagen',
-            description: 'Ruta pública, p. ej. /img/valdivia_hero.avif (archivos en public/img).',
+            description: 'Ruta de imagen, p. ej. /img/valdivia_hero.avif (el archivo vive en src/assets/img y se optimiza en build: avif/webp responsive).',
             validation: { isRequired: true },
           }),
           infoLabel: fields.text({ label: 'Botón — Información (etiqueta)', validation: { isRequired: true } }),
