@@ -2,8 +2,8 @@
 // src/components/vbk/SiteHeader.astro
 // Header fijo transparente que se solidifica al hacer scroll (JS global).
 // Logo invertido a la izquierda, nav central, switcher ES/EN (enlace real a
-// la misma pÃ¡gina en el otro locale), CTA InscrÃ­bete y menÃº mÃ³vil con
-// focus trap. Mobile: CTA de inscripciÃ³n a ancho completo.
+// la misma página en el otro locale), CTA Inscríbete y menú móvil con
+// focus trap. Mobile: CTA de inscripción a ancho completo.
 
 import { siteBrand, REGISTRATION_URL } from '@/data/site';
 import { getEntry } from 'astro:content';
@@ -24,7 +24,7 @@ if (!commonEntry) {
 }
 const common = commonEntry.data;
 
-// URL de inscripciÃ³n editable vÃ­a CMS; fallback al valor por defecto de site.ts
+// URL de inscripción editable vía CMS; fallback al valor por defecto de site.ts
 const settingsEntry = await getEntry('siteSettings', 'index');
 const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 

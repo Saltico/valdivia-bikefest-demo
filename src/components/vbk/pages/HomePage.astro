@@ -1,6 +1,6 @@
 ---
 // src/components/vbk/pages/HomePage.astro
-// Home: hero full-viewport con seÃ±al + cuenta regresiva al 14-mar-2027
+// Home: hero full-viewport con señal + cuenta regresiva al 14-mar-2027
 // 14:10 America/Santiago, secciones evento/ruta/schedule/resultados/valdivia
 // y CTA final. Fuente: index.html original + site-spec.json.
 
@@ -16,23 +16,23 @@ export interface Props {
 
 const { locale = defaultLocale } = Astro.props;
 
-// Contenido de la home desde la colecciÃ³n Keystatic `pagesHome`
+// Contenido de la home desde la colección Keystatic `pagesHome`
 // (src/content/pages/home/{locale}.json). El schema espeja el copy original
-// de la Fase 1, asÃ­ que el template no cambia.
+// de la Fase 1, así que el template no cambia.
 const homeEntry = await getEntry('pagesHome', locale);
 if (!homeEntry) {
-  throw new Error(`[pagesHome] No existe la entrada '${locale}' (src/content/pages/home/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Inicio).`);
+  throw new Error(`[pagesHome] No existe la entrada '${locale}' (src/content/pages/home/${locale}.json). Edítala en el CMS (Keystatic → Inicio).`);
 }
 const t = homeEntry.data;
 
-// Textos compartidos (botÃ³n InscrÃ­bete del hero) desde siteCommon
+// Textos compartidos (botón Inscríbete del hero) desde siteCommon
 const commonEntry = await getEntry('siteCommon', locale);
 if (!commonEntry) {
   throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
 }
 const common = commonEntry.data;
 
-// Ajustes editables vÃ­a CMS (singleton siteSettings); fallback a site.ts
+// Ajustes editables vía CMS (singleton siteSettings); fallback a site.ts
 const settingsEntry = await getEntry('siteSettings', 'index');
 const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE;

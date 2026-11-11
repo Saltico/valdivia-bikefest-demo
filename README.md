@@ -1,152 +1,94 @@
-# Astro Static Template
+# Valdivia Bike Fest
 
-A reusable, SEO-optimized static website template built with Astro, Tailwind CSS v4, and Keystatic CMS.
+Sitio web de Valdivia Bike Fest (Astro 5 + Tailwind v4 + Keystatic CMS). Español por defecto, inglés bajo `/en`.
+El sitio público es **siempre estático (prerenderizado)**; solo el panel `/keystatic` y `/api/keystatic` se sirven bajo demanda en el target Node.
 
-## Features
+## Targets de build
 
-- **🚀 Static-first**: Blazing fast performance with Astro's static site generation
-- **🎨 Tailwind CSS v4**: CSS-first configuration with design tokens
-- **📝 Keystatic CMS**: Edit content locally with markdown + MDX support
-- **🔍 SEO Optimized**: Built-in SEO components, structured data, sitemap
-- **📊 Analytics**: Google Tag Manager + GA4 with consent mode
-- **🎯 WordPress Ready**: Optional headless CMS integration
+| Target | Comando | Salida | Uso |
+| --- | --- | --- | --- |
+| `static` (default) | `npm run build` | `dist/` (HTML estático) | GitHub Pages: vista pública **sin admin**. Sin adapter, sin Keystatic. Respeta `PUBLIC_BASE_PATH`. |
+| `node` | `npm run build:node` | `dist/client` + `dist/server` | Hostinger (app Node.js): sitio prerenderizado + admin Keystatic Cloud. `base` = `/`. |
 
-## Quick Start
+El selector vive en `astro.config.mjs` (`DEPLOY_TARGET=static|node`).
+
+## Desarrollo local
+
+Requiere Node `>=22.12`.
 
 ```bash
 npm install
-npm run dev
-```
-
-Then visit:
-- **Site**: http://localhost:4321
-- **CMS Editor**: http://localhost:4321/keystatic (dev mode only)
-
-## Project Structure
-
-```
-├── public/              # Static assets
-│   ├── fonts/          # Self-hosted fonts
-│   └── og-default.jpg  # Default Open Graph image
-├── src/
-│   ├── assets/         # Images, icons, logos
-│   ├── components/     # Reusable components
-│   │   ├── layout/     # Header, Footer, Navigation
-│   │   ├── seo/        # MetaTags, JsonLd, Breadcrumbs
-│   │   ├── analytics/  # GTM, ConsentBanner
-│   │   └── ui/         # Container, Button, Icon, etc.
-│   ├── content/        # Content collections (Keystatic)
-│   │   ├── config.ts   # Collection schemas
-│   │   ├── posts/      # Blog posts
-│   │   └── pages/      # Editable pages
-│   ├── data/           # Site configuration
-│   │   └── site.ts     # Brand, contact, nav, footer
-│   ├── layouts/        # BaseLayout, PostLayout
-│   ├── lib/            # Utilities
-│   │   ├── seo.ts      # Schema.org builders
-│   │   ├── analytics.ts # GTM helpers
-│   │   └── wordpress-api.ts # Optional WP integration
-│   ├── pages/          # Routes
-│   │   ├── index.astro
-│   │   ├── 404.astro
-│   │   └── blog/
-│   │       ├── index.astro
-│   │       └── [...slug].astro
-│   ├── styles/         # Global styles
-│   │   ├── tokens.css  # Design tokens (Tailwind v4)
-│   │   └── base.css    # Base styles
-│   └── types/          # TypeScript types
-├── keystatic.config.ts # CMS configuration
-├── astro.config.mjs    # Astro configuration
-├── package.json
-├── tsconfig.json
-└── .env.example
-```
-
-## Environment Variables
-
-Copy `.env.example` to `.env`:
-
-```bash
 cp .env.example .env
+npm run dev          # sitio en http://localhost:4321 (sin admin)
+npm run keystatic    # sitio + admin local en http://localhost:4321/keystatic
 ```
 
-Variables:
-- `PUBLIC_SITE_URL`: Canonical site URL (default: https://example.com)
-- `PUBLIC_GTM_ID`: Google Tag Manager ID (optional)
-- `PUBLIC_GA_ID`: Google Analytics 4 ID (optional)
-- `WP_API_URL`: WordPress API URL (optional, for headless integration)
+En local, Keystatic usa storage `local`: edita directamente `src/content/**` y los cambios los versionas con Git.
 
-## Development
+## Cómo funciona Keystatic Cloud
+
+- En el target `node` el CMS usa `storage: { kind: 'cloud' }`. El cliente entra a `<sitio>/keystatic` e inicia sesión **con su email** (login de Keystatic Cloud; no hay usuarios en el servidor).
+- Cada guardado en el admin es un **commit al repositorio GitHub** `Saltico/valdivia-bikefest-demo` (el repo vinculado al proyecto en keystatic.cloud).
+- Ese commit **no actualiza el sitio por sí solo**: hay que **redesplegar / reconstruir** en Hostinger (`npm run build:node` y reiniciar), porque el contenido se incrusta como HTML estático en build time.
+- GitHub Pages sigue publicando la vista estática con cada push a `main` (workflow `.github/workflows/deploy.yml`).
+- Contenido editable: una colección por página (Inicio, El evento, Ruta, Resultados, Valdivia, Contacto), textos compartidos (header/footer/CTA) y ajustes (URL de inscripción, fecha de la cuenta regresiva), con una entrada `es` y otra `en` cada una.
+
+### Configuración inicial (una sola vez, manual)
+
+1. Crear cuenta/team en <https://keystatic.cloud> y un proyecto nuevo.
+2. Vincular el repo GitHub `Saltico/valdivia-bikefest-demo` al proyecto.
+3. Invitar al cliente por email desde el team.
+4. Copiar el identificador `<team>/<project>` y ponerlo en `PUBLIC_KEYSTATIC_CLOUD_PROJECT` (en Hostinger, antes de construir).
+
+## Variables de entorno
+
+Ver `.env.example` (comentado). Resumen:
+
+| Variable | Cuándo | Descripción |
+| --- | --- | --- |
+| `DEPLOY_TARGET` | build | `static` (default) o `node`. Ya fijado por los scripts. |
+| `PUBLIC_SITE_URL` | build | URL canónica. Producción: `https://valdiviabikefest.cl`. |
+| `PUBLIC_BASE_PATH` | build static | Subruta de GitHub Pages (`/valdivia-bikefest-demo`). Ignorada en `node`. |
+| `PUBLIC_KEYSTATIC_CLOUD_PROJECT` | build node | `<team>/<project>` de Keystatic Cloud (**TODO: pendiente**). Se incrusta en build time. |
+| `PUBLIC_KEYSTATIC_STORAGE` | build | Opcional: fuerza `local` o `cloud`. Por defecto `local` en dev y `cloud` en build. |
+| `ASTRO_ENABLE_KEYSTATIC` | dev | `true` habilita el admin local en `astro dev`. |
+| `PUBLIC_GTM_ID`, `PUBLIC_GA4_ID` | build | Analítica (vacío = omitida). |
+| `PUBLIC_CONTACT_EMAIL`, `PUBLIC_CONTACT_PHONE`, `PUBLIC_MAPS_EMBED_URL`, `PUBLIC_FORM_ACTION` | build | Contacto y formulario. |
+| `HOST`, `PORT` | runtime node | Opcionales; el servidor standalone los lee al iniciar. |
+
+Las variables `PUBLIC_*` se incrustan al construir: cambiarlas exige un nuevo build. No hay secretos en este proyecto (Keystatic Cloud autentica en el navegador).
+
+## Despliegue en Hostinger (app Node.js)
+
+1. Crear la aplicación Node.js (Business/Cloud) y conectar el repo GitHub (o subir el código).
+2. **Versión de Node: `>=22.12`** (22 LTS recomendado).
+3. Variables de entorno en el panel: `PUBLIC_SITE_URL`, `PUBLIC_KEYSTATIC_CLOUD_PROJECT`, `PUBLIC_GTM_ID`/`PUBLIC_GA4_ID`, contacto, etc.
+4. **Comando de instalación**: `npm install` (o `npm ci`).
+5. **Comando de build**: `npm run build:node`
+6. **Comando de inicio**: `npm start` (equivale a `node ./dist/server/entry.mjs`). El servidor lee `HOST`/`PORT` que provee Hostinger.
+7. Tras cada edición del CMS (commit al repo) hay que **volver a desplegar/reconstruir** en Hostinger para que el sitio público refleje el cambio.
+
+## Estructura relevante
+
+```
+astro.config.mjs        # selector DEPLOY_TARGET (static | node)
+keystatic.config.ts     # storage local/cloud, navegación, colecciones
+cms/*Keystatic.ts       # schema Keystatic por colección (patrón dual-file)
+cms/*Astro.ts           # schema Zod + loader por colección
+src/content.config.ts   # registro de colecciones Astro
+src/content/            # contenido JSON editable (pages/*, common, settings)
+```
+
+Tras cambiar schemas: `npx astro sync`.
+
+## Verificación rápida
 
 ```bash
-npm run dev          # Start dev server (localhost:4321)
-npm run build        # Build for production
-npm run preview      # Preview production build
+npm run build        # estático; no debe existir dist/**/keystatic*
+npm run build:node   # dist/server/entry.mjs + páginas prerenderizadas en dist/client
+npm start            # / → 200, /keystatic → 200
 ```
 
-## Content Management
-
-### Using Keystatic (Default)
-
-Edit content at `/keystatic` (dev mode only). Content is stored as markdown in `src/content/`.
-
-Collections:
-- **Posts**: Blog articles with title, description, publish date, draft flag
-- **Pages**: Editable pages with title, description, noindex flag
-
-### Migrating to WordPress
-
-1. Set `WP_API_URL` in `.env`
-2. Update blog routes to use `fetchPosts()` from `src/lib/wordpress-api.ts`
-3. Map WordPress fields to your view model
-
-See `src/lib/wordpress-api.ts` for the client implementation.
-
-## SEO
-
-Built-in SEO features:
-- Auto-generated canonical URLs
-- Open Graph meta tags
-- Twitter Cards
-- JSON-LD structured data (Organization, WebSite, Article)
-- Sitemap (auto-generated, excludes legal pages)
-- robots.txt
-
-Configure in `src/lib/seo.ts` and `src/data/site.ts`.
-
-## Analytics
-
-Conditional loading: analytics scripts only load when IDs are provided in `.env`.
-
-Includes:
-- Google Tag Manager
-- Google Analytics 4
-- Consent Mode v2 support
-- Event tracking for clicks, downloads, outbound links
-
-## Styling
-
-Tailwind CSS v4 with CSS-first configuration:
-- Design tokens in `src/styles/tokens.css`
-- Custom properties for colors, spacing, typography
-- Dark mode support via `[data-theme="dark"]`
-- No magic numbers - all values come from tokens
-
-## Deployment
-
-Build static files:
-```bash
-npm run build
-```
-
-Deploy `dist/` folder to:
-- Netlify
-- Vercel
-- Cloudflare Pages
-- GitHub Pages
-- Any static hosting
-
-## License
+## Licencia
 
 MIT

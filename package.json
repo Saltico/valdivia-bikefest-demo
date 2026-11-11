@@ -1,20 +1,24 @@
 {
-  "name": "astro-template",
+  "name": "valdivia-bikefest",
   "type": "module",
   "version": "0.2.0",
-  "description": "Reusable static Astro website template with SEO, GTM, GA4, Tailwind v4, Keystatic CMS, and i18n support.",
+  "description": "Valdivia Bike Fest: sitio Astro (SSG) con Keystatic CMS.",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "cross-env DEPLOY_TARGET=static astro build",
+    "build:node": "cross-env DEPLOY_TARGET=node astro build",
+    "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "keystatic": "astro dev"
+    "keystatic": "cross-env ASTRO_ENABLE_KEYSTATIC=true astro dev"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
+    "@astrojs/node": "^9.5.5",
+    "@astrojs/react": "^4.4.2",
     "@keystatic/astro": "^5.0.0",
     "@keystatic/core": "^0.5.0",
     "astro": "^5.0.0",
@@ -25,6 +29,8 @@
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.7",
+    "cross-env": "^10.1.0",
     "tailwindcss": "^4.0.0"
   }
 }

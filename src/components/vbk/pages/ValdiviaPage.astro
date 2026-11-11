@@ -4,7 +4,7 @@
 // scrollspy (IntersectionObserver en vbk.ts) y 5 secciones de destino con
 // foto de fondo, overlay y acciones externas.
 // Bug fix del original: los atributos malformados rel="noopener"" (comilla
-// duplicada) de los botones de destinos se emiten aquÃ­ correctamente.
+// duplicada) de los botones de destinos se emiten aquí correctamente.
 // Fuente: valdivia.html.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -17,16 +17,16 @@ export interface Props {
 
 const { locale = defaultLocale } = Astro.props;
 
-// Contenido de /valdivia desde la colecciÃ³n Keystatic `pagesValdivia`
+// Contenido de /valdivia desde la colección Keystatic `pagesValdivia`
 // (src/content/pages/valdivia/{locale}.json). El schema espeja el copy
-// original de la Fase 1, asÃ­ que el template no cambia.
+// original de la Fase 1, así que el template no cambia.
 const valdiviaEntry = await getEntry('pagesValdivia', locale);
 if (!valdiviaEntry) {
-  throw new Error(`[pagesValdivia] No existe la entrada '${locale}' (src/content/pages/valdivia/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Valdivia).`);
+  throw new Error(`[pagesValdivia] No existe la entrada '${locale}' (src/content/pages/valdivia/${locale}.json). Edítala en el CMS (Keystatic → Valdivia).`);
 }
 const t = valdiviaEntry.data;
 
-// Dimensiones intrÃ­nsecas de las fotos de destino (evita CLS; checklist SEO).
+// Dimensiones intrínsecas de las fotos de destino (evita CLS; checklist SEO).
 const destinationDims: Record<string, { width: number; height: number }> = {
   '/img/valdivia_parque_nacional_alerce_costero.avif': { width: 7360, height: 4912 },
   '/img/valdivia_volcan_mocho_choshuenco.avif': { width: 3648, height: 5472 },
@@ -35,7 +35,7 @@ const destinationDims: Record<string, { width: number; height: number }> = {
   '/img/valdivia_fuerte_niebla.avif': { width: 4938, height: 3292 },
 };
 
-// Ãconos SVG lineales del original (stroke currentColor 2)
+// Íconos SVG lineales del original (stroke currentColor 2)
 const navIcons: Record<string, string> = {
   forest:
     '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L7 9h3L6 16h4l-3 6h10l-3-6h4l-4-7h3z"/></svg>',

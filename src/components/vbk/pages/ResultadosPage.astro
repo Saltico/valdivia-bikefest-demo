@@ -1,9 +1,9 @@
 ---
 // src/components/vbk/pages/ResultadosPage.astro
 // /resultados: hero full-bleed con crossfade (2 fotos), barra de aviso con
-// badge "DATOS DE PRUEBA" y tablero XCO/XCC con tabs, chips de categorÃ­a,
-// tabla con renumeraciÃ³n y footer de tablero. Filas renderizadas
-// server-side desde la colecciÃ³n pagesResultados (porte SSG del
+// badge "DATOS DE PRUEBA" y tablero XCO/XCC con tabs, chips de categoría,
+// tabla con renumeración y footer de tablero. Filas renderizadas
+// server-side desde la colección pagesResultados (porte SSG del
 // renderResultsTable original). Fuente: resultados.html + script.js.
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -16,17 +16,17 @@ export interface Props {
 
 const { locale = defaultLocale } = Astro.props;
 
-// Contenido de /resultados desde la colecciÃ³n Keystatic `pagesResultados`
+// Contenido de /resultados desde la colección Keystatic `pagesResultados`
 // (src/content/pages/resultados/{locale}.json): copy del hero/aviso/tablero
 // y las filas del tablero (datos de prueba hasta la fuente oficial de
-// cronometraje â€” warning del site-spec).
+// cronometraje — warning del site-spec).
 const resultadosEntry = await getEntry('pagesResultados', locale);
 if (!resultadosEntry) {
-  throw new Error(`[pagesResultados] No existe la entrada '${locale}' (src/content/pages/resultados/${locale}.json). EdÃ­tala en el CMS (Keystatic â†’ Resultados).`);
+  throw new Error(`[pagesResultados] No existe la entrada '${locale}' (src/content/pages/resultados/${locale}.json). Edítala en el CMS (Keystatic → Resultados).`);
 }
 const t = resultadosEntry.data;
 
-// Chips de categorÃ­a: 'Todas' + las categorÃ­as editables (slug â†” etiqueta)
+// Chips de categoría: 'Todas' + las categorías editables (slug ↔ etiqueta)
 const chips: Array<{ slug: string; label: string }> = [
   { slug: 'all', label: t.chipAll },
   ...t.categories.map((category) => ({ slug: category.slug, label: category.label })),
