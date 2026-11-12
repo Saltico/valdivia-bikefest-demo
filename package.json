@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "description": "Valdivia Bike Fest: sitio Astro (SSG) con Keystatic CMS.",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "dev": "astro dev",
@@ -16,21 +16,24 @@
     "keystatic": "cross-env ASTRO_ENABLE_KEYSTATIC=true astro dev"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.0.0",
-    "@astrojs/node": "^9.5.5",
-    "@astrojs/react": "^4.4.2",
-    "@keystatic/astro": "^5.0.0",
-    "@keystatic/core": "^0.5.0",
-    "astro": "^5.0.0",
+    "@astrojs/mdx": "^8.1.5",
+    "@astrojs/node": "^11.1.12",
+    "@astrojs/react": "^7.1.8",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "astro": "^7.4.11",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.7.0",
-    "@tailwindcss/vite": "^4.0.0",
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.5",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.7",
     "cross-env": "^10.1.0",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.3.5"
+  },
+  "overrides": {
+    "minimatch": "^11.0.8"
   }
 }

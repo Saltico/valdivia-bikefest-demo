@@ -14,7 +14,6 @@ import ConsentBanner from '@/components/analytics/ConsentBanner.astro';
 import SiteHeader from '@/components/vbk/SiteHeader.astro';
 import SiteFooter from '@/components/vbk/SiteFooter.astro';
 import { organizationSchema, websiteSchema, getSiteUrl } from '@/lib/seo';
-import { initAnalytics } from '@/lib/analytics';
 import { withBase } from '@/utils/url';
 import fontDisplayBold from '@/assets/fonts/barlow-condensed-latin-700-normal.woff2?url';
 import fontBody from '@/assets/fonts/dm-sans-latin-wght-normal.woff2?url';
@@ -150,7 +149,9 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <div class="toast" role="status" aria-live="polite" hidden></div>
 
     <script>
-      // Initialize analytics: listens to DOM events and sends to GTM dataLayer
+      // Initialize analytics: listens to DOM events and sends to GTM dataLayer.
+      // Los imports del frontmatter no llegan al <script> de cliente: se importa aquí.
+      import { initAnalytics } from '@/lib/analytics';
       initAnalytics();
     </script>
 

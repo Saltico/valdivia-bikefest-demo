@@ -69,7 +69,12 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
-    routing: { prefixDefaultLocale: false },
+    // 'manual': las URLs ya siguen el esquema "es sin prefijo, /en" porque las
+    // páginas viven en src/pages y src/pages/en (todas prerenderizadas). Con
+    // `{ prefixDefaultLocale: false }`, el middleware i18n de Astro 7 responde
+    // 404 a cualquier ruta on-demand que tenga un segmento "es" en cualquier
+    // posición, lo que rompía /keystatic/collection/<col>/item/es.
+    routing: 'manual',
   },
   integrations: [
     mdx(),
