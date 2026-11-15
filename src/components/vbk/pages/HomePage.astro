@@ -37,6 +37,8 @@ const common = commonEntry.data;
 const settingsEntry = await getEntry('siteSettings', 'index');
 const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE;
+// Sección "Resultados" de la portada: solo cuando están publicados.
+const resultsPublished = settingsEntry?.data.showResults ?? false;
 ---
 
 <BaseLayout
@@ -230,19 +232,21 @@ const eventTargetDate = settingsEntry?.data.eventTargetDate ?? EVENT_TARGET_DATE
       </div>
     </section>
 
-    <section class="results-section" id="resultados" aria-labelledby="results-title">
-      <div class="results-copy animate-on-scroll">
-        <p class="section-kicker">{t.resultados.kicker}</p>
-        <h2 id="results-title" set:html={t.resultados.headingHtml} />
-        <p>{t.resultados.copy}</p>
-        <a class="button button-dark" href={localePath(locale, '/resultados')}>
-          {t.resultados.ctaLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
-        </a>
-      </div>
-      <div class="results-images animate-on-scroll">
+    {resultsPublished && (
+      <section class="results-section" id="resultados" aria-labelledby="results-title">
+        <div class="results-copy animate-on-scroll">
+          <p class="section-kicker">{t.resultados.kicker}</p>
+          <h2 id="results-title" set:html={t.resultados.headingHtml} />
+          <p>{t.resultados.copy}</p>
+          <a class="button button-dark" href={localePath(locale, '/resultados')}>
+            {t.resultados.ctaLabel} <span aria-hidden="true">&#x2197;&#xFE0E;</span>
+          </a>
+        </div>
+        <div class="results-images animate-on-scroll">
           <Img src="/img/meta.avif" alt={t.resultados.imageAlt} sizes="(min-width: 981px) 50vw, 100vw" />
         </div>
-    </section>
+      </section>
+    )}
 
     <section class="valdivia-section" id="valdivia" aria-labelledby="valdivia-title">
       <div class="valdivia-carousel" aria-hidden="true" data-crossfade data-interval="5000">

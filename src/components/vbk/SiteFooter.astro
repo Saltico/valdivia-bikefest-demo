@@ -8,6 +8,7 @@ import logo from '@/assets/logo.png';
 import { siteBrand } from '@/data/site';
 import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
+import { areResultsPublished, filterResultsNav } from '@/lib/results';
 
 export interface Props {
   locale?: Locale;
@@ -23,7 +24,12 @@ if (!commonEntry) {
   throw new Error(`[siteCommon] No existe la entrada '${locale}' (src/content/common/${locale}.json).`);
 }
 const common = commonEntry.data;
-const links = common.nav.map((item) => ({ ...item, href: localePath(locale, item.href) }));
+// Resultados se oculta del pie hasta que se publique (Ajustes del sitio).
+const resultsPublished = await areResultsPublished();
+const links = filterResultsNav(common.nav, resultsPublished).map((item) => ({
+  ...item,
+  href: localePath(locale, item.href),
+}));
 ---
 
 <footer class="site-footer">

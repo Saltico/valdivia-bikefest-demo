@@ -10,6 +10,7 @@ import logo from '@/assets/logo.png';
 import { siteBrand, REGISTRATION_URL } from '@/data/site';
 import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, alternateLocalePath, type Locale } from '@/i18n/config';
+import { filterResultsNav } from '@/lib/results';
 
 export interface Props {
   locale?: Locale;
@@ -30,7 +31,9 @@ const common = commonEntry.data;
 const settingsEntry = await getEntry('siteSettings', 'index');
 const registrationUrl = settingsEntry?.data.registrationUrl ?? REGISTRATION_URL;
 
-const navItems = common.nav.map((item) => ({
+// Resultados se oculta del menú hasta que se publique (Ajustes del sitio).
+const resultsPublished = settingsEntry?.data.showResults ?? false;
+const navItems = filterResultsNav(common.nav, resultsPublished).map((item) => ({
   ...item,
   href: localePath(locale, item.href),
 }));

@@ -28,6 +28,13 @@ export const resultadosSchema = z.object({
     headingHtml: z.string().min(1),
     intro: z.string().min(1),
   }),
+  pending: z.object({
+    kicker: z.string().min(1),
+    headingHtml: z.string().min(1),
+    intro: z.string().min(1),
+    primaryCta: z.string().min(1),
+    secondaryCta: z.string().min(1),
+  }),
   demoBadge: z.string().min(1),
   demoNote: z.string().min(1),
   boardHeadLeft: z.string().min(1),

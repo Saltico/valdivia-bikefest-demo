@@ -3838,3 +3838,23 @@ picture > source {
     animation: none;
   }
 }
+
+/* ── Resultados: aviso de espera (antes de publicar) ────────────────
+   Hero a pantalla completa con texto y CTAs; sin tablero debajo. */
+.results-hero.results-hero--pending {
+  height: auto;
+  min-height: 100svh;
+  align-items: center;
+}
+
+.results-hero--pending .results-pending-intro {
+  margin: 2rem 0 0;
+  color: var(--paper);
+  font-size: 1.18rem;
+  line-height: 1.65;
+  max-width: 34rem;
+}
+
+.results-hero--pending .hero-actions {
+  margin-top: 2.5rem;
+}

@@ -6,6 +6,13 @@
     "headingHtml": "Your mark<br><em>goes here</em>",
     "intro": "The official board goes live after each start. Come back to find your time and check your category result."
   },
+  "pending": {
+    "kicker": "Valdivia Bike Fest / Results 2027",
+    "headingHtml": "Your mark<br><em>gets written in March</em>",
+    "intro": "Official results will be published here after each start. In the meantime, secure your spot on the start line.",
+    "primaryCta": "Register",
+    "secondaryCta": "See route & schedule"
+  },
   "demoBadge": "DEMO DATA",
   "demoNote": "Demo table with fictitious data. The official board activates after each start.",
   "boardHeadLeft": "VBF / RESULTS",

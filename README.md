@@ -31,7 +31,8 @@ En local, Keystatic usa storage `local`: edita directamente `src/content/**` y l
 - Cada guardado en el admin es un **commit al repositorio GitHub** `Saltico/valdivia-bikefest-demo` (el repo vinculado al proyecto en keystatic.cloud).
 - Ese commit **no actualiza el sitio por sí solo**: hay que **redesplegar / reconstruir** en Hostinger (`npm run build:node` y reiniciar), porque el contenido se incrusta como HTML estático en build time.
 - GitHub Pages sigue publicando la vista estática con cada push a `main` (workflow `.github/workflows/deploy.yml`).
-- Contenido editable: una colección por página (Inicio, El evento, Ruta, Resultados, Valdivia, Contacto), textos compartidos (header/footer/CTA) y ajustes (URL de inscripción, fecha de la cuenta regresiva), con una entrada `es` y otra `en` cada una.
+- Contenido editable: una colección por página (Inicio, El evento, Ruta, Resultados, Valdivia, Contacto), textos compartidos (header/footer/CTA) y ajustes (URL de inscripción, fecha de la cuenta regresiva, publicar resultados), con una entrada `es` y otra `en` cada una.
+- **Publicar resultados** (Ajustes del sitio, desmarcado por defecto): mientras esté desmarcado, Resultados no aparece en el menú, el pie ni la portada, y `/resultados` y `/en/resultados` muestran un aviso de espera (textos en Resultados → Aviso de espera) con `noindex` y fuera del sitemap. Al marcarlo y guardar, el sitio se reconstruye solo y muestra el tablero. Lógica en `src/lib/results.ts`.
 
 ### Configuración inicial (una sola vez, manual)
 

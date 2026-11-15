@@ -54,6 +54,24 @@ export const keystaticPagesResultadosConfig = {
       },
       { label: 'Hero' },
     ),
+    pending: fields.object(
+      {
+        kicker: fields.text({ label: 'Kicker', validation: { isRequired: true } }),
+        headingHtml: fields.text({
+          label: 'Encabezado H1 (HTML)',
+          description: 'Admite <br> y <em>.',
+          validation: { isRequired: true },
+        }),
+        intro: fields.text({ label: 'Texto', multiline: true, validation: { isRequired: true } }),
+        primaryCta: fields.text({ label: 'Botón principal (inscripción)', validation: { isRequired: true } }),
+        secondaryCta: fields.text({ label: 'Enlace secundario (ruta y horario)', validation: { isRequired: true } }),
+      },
+      {
+        label: 'Aviso de espera',
+        description:
+          'Se muestra en /resultados mientras "Publicar resultados" (Ajustes del sitio) esté desmarcado.',
+      },
+    ),
     demoBadge: fields.text({ label: 'Badge del aviso (datos de prueba)', validation: { isRequired: true } }),
     demoNote: fields.text({ label: 'Nota del aviso', multiline: true, validation: { isRequired: true } }),
     boardHeadLeft: fields.text({ label: 'Cabecera del tablero — izquierda', validation: { isRequired: true } }),

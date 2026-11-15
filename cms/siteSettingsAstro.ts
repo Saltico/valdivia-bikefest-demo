@@ -14,6 +14,8 @@ export const siteSettingsSchema = z.object({
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?[+-]\d{2}:\d{2}$/,
     'Formato esperado: 2027-03-14T14:10:00-03:00',
   ),
+  // Visibilidad de Resultados (menú, pie, portada y tablero). Default oculto.
+  showResults: z.boolean().default(false),
 });
 
 export const astroSiteSettingsDefinition = defineCollection({

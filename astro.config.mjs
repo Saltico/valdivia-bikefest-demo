@@ -40,6 +40,19 @@ const enableKeystatic = isNode || (isDev && env('ASTRO_ENABLE_KEYSTATIC') === 't
 
 // Dominio canónico (sitemap, canonicals, OG). Override con PUBLIC_SITE_URL.
 const site = env('PUBLIC_SITE_URL') ?? 'https://valdiviabikefest.cl';
+
+// Resultados publicados (Keystatic → Ajustes del sitio → "Publicar resultados").
+// El config no puede usar astro:content, así que lee el mismo JSON del singleton.
+// Mientras sea false, /resultados y /en/resultados (aviso de espera, noindex)
+// quedan fuera del sitemap. Ver src/lib/results.ts.
+const resultsPublished = (() => {
+  try {
+    const file = path.join(__dirname, 'src/content/settings/index.json');
+    return JSON.parse(fs.readFileSync(file, 'utf8')).showResults === true;
+  } catch {
+    return false;
+  }
+})();
 // GitHub Pages sirve bajo un subpath (PUBLIC_BASE_PATH=/valdivia-bikefest-demo).
 // Hostinger (node) sirve en la raíz del dominio/subdominio.
 const base = isNode ? '/' : (env('PUBLIC_BASE_PATH') ?? '/');
@@ -134,8 +147,10 @@ export default defineConfig({
       // canonical ('<base>'). Se normaliza para que sitemap y canonicals coincidan.
       serialize: (item) => ({ ...item, url: item.url.replace(/\/$/, '') }),
       filter: (page) =>
-        !['/thank-you', '/404', '/500', '/legal', '/privacy', '/cookies', '/keystatic']
-          .some((p) => page.includes(p)),
+        ![
+          '/thank-you', '/404', '/500', '/legal', '/privacy', '/cookies', '/keystatic',
+          ...(resultsPublished ? [] : ['/resultados']),
+        ].some((p) => page.includes(p)),
     }),
     ...(enableKeystatic
       ? [

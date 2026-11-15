@@ -33,5 +33,11 @@ export const keystaticSiteSettingsConfig = {
         },
       },
     }),
+    showResults: fields.checkbox({
+      label: 'Publicar resultados',
+      description:
+        'Desmarcado: Resultados se oculta del menú, del pie y de la portada, y /resultados muestra el aviso de espera (textos en Resultados → Aviso de espera). Márcalo cuando estén los resultados oficiales; el sitio se actualiza al terminar el despliegue (~3 min).',
+      defaultValue: false,
+    }),
   },
 };

@@ -7,6 +7,13 @@
     "headingHtml": "Tu marca<br><em>queda aquí</em>",
     "intro": "El tablero oficial se activará después de cada largada. Vuelve para buscar tu tiempo y revisar el resultado de tu categoría."
   },
+  "pending": {
+    "kicker": "Valdivia Bike Fest / Resultados 2027",
+    "headingHtml": "Tu marca<br><em>se escribe en marzo</em>",
+    "intro": "Los resultados oficiales se publicarán aquí después de cada largada. Mientras tanto, asegura tu lugar en la línea de partida.",
+    "primaryCta": "Inscríbete",
+    "secondaryCta": "Ver ruta y horario"
+  },
   "demoBadge": "DATOS DE PRUEBA",
   "demoNote": "Tabla de demostración con datos ficticios. El tablero oficial se activa después de cada largada.",
   "boardHeadLeft": "VBF / RESULTADOS",
