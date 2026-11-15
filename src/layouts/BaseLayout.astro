@@ -81,7 +81,11 @@ const allSchemas = [...baseSchemas, ...pageSchemas];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('/site.webmanifest')} />
+    <meta name="theme-color" content="#1a1a1a" />
 
     <!-- Consent Mode defaults (before analytics); solo si hay GTM o GA4 configurados -->
     {hasAnalytics && (

@@ -3,8 +3,7 @@
 // Footer unificado (bug fix del original): mismas 5 secciones en todas las
 // páginas — Evento, Ruta y horario, Resultados, Valdivia, Contacto.
 
-import { Image } from 'astro:assets';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/vbf-logo-light.svg';
 import { siteBrand } from '@/data/site';
 import { getEntry } from 'astro:content';
 import { defaultLocale, localePath, type Locale } from '@/i18n/config';
@@ -34,13 +33,12 @@ const links = filterResultsNav(common.nav, resultsPublished).map((item) => ({
 
 <footer class="site-footer">
   <a class="wordmark footer-wordmark" href={localePath(locale, '/')} aria-label={common.homeLabel}>
-    <Image
+    <img
       class="wordmark-logo"
-      src={logo}
+      src={logo.src}
       alt={siteBrand.name}
-      width={120}
-      format="webp"
-      quality={80}
+      width={logo.width}
+      height={logo.height}
       loading="lazy"
       decoding="async"
     />

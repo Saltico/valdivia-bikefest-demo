@@ -229,7 +229,6 @@ img.section-bg {
   display: block;
   width: clamp(3rem, 4vw, 3.75rem);
   height: auto;
-  filter: invert(1);
 }
 
 .wordmark-mark,

@@ -10,8 +10,8 @@ export const siteBrand = {
   description:
     'Valdivia Bike Fest: competencia mountain bike en Valdivia, Chile. Conoce el evento, explora la ruta, revisa los horarios y prepárate para inscribirte.',
   logoUrl: '/img/logo.png',
-  logoWidth: 217,
-  logoHeight: 179,
+  logoWidth: 600,
+  logoHeight: 500,
   siteUrl: import.meta.env.PUBLIC_SITE_URL ?? 'https://valdiviabikefest.cl',
 };
 
